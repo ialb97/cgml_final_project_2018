@@ -29,7 +29,7 @@ class cifar100tree:
 		self.tree,self.x_batches,self.y_batches = createTree.createTree()
 		
 		self.learning_rate = learning_rate
-		self.optimizers = keras.optimizers.Adam(lr=self.learning_rate)
+		self.optimizer = keras.optimizers.Adam(lr=self.learning_rate)
 		self.model_dict = self.build_model_dict(self.base_model,self.inputs)
 		
 		self.fit()
