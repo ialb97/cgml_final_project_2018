@@ -216,7 +216,7 @@ class cifar100tree:
             vertical_flip=False)  # randomly flip images
 		k = 0
 		keys = ['root']
-		batches = [datagen.flow(x_batches['root'],y_batches['root',batch_size=self.batch_size])]
+		batches = [datagen.flow(x_batches['root'],y_batches['root'],batch_size=self.batch_size)]
 		num_batches = len(batches[k])
 		batches_per = [len(batches[k])]
 		k += 1
