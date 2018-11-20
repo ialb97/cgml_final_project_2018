@@ -28,9 +28,10 @@ class cifar100tree:
 
 		self.tree,self.x_batches,self.y_batches = createTree.createTree()
 		
-		self.model_dict = self.build_model_dict(self.base_model,self.inputs)
 		self.learning_rate = learning_rate
 		self.optimizers = keras.optimizers.ADAM(lr=self.learning_rate)
+		self.model_dict = self.build_model_dict(self.base_model,self.inputs)
+		
 		self.fit()
 		
 	def build_base_model(self):
@@ -190,13 +191,13 @@ class cifar100tree:
 	def build_model_dict(self,base_model,inputs):
 		models = {}
 
-		outputs['root'] = self.build_model(self.base_model,inputs,len(self.tree)).compile(optimizer, 
+		outputs['root'] = self.build_model(self.base_model,inputs,len(self.tree)).compile(self.optimizer, 
 											metrics=['accuracy'],
 											loss='categorical_cross_entropy')
 
 		for key in self.tree:
 			outputs = len(self.tree[key]['fine'])
-			models[key] = self.build_model(self.base_model,inputs,outputs).compile(optimizer, 
+			models[key] = self.build_model(self.base_model,inputs,outputs).compile(self.optimizer, 
 											metrics=['accuracy'],
 											loss='categorical_cross_entropy')
 		return models
