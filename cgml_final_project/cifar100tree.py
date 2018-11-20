@@ -192,15 +192,17 @@ class cifar100tree:
 	def build_model_dict(self,base_model,inputs):
 		models = {}
 
-		models['root'] = self.build_model(self.base_model,inputs,len(self.tree)).compile(self.optimizer, 
-											metrics=['accuracy'],
-											loss='categorical_crossentropy')
+		models['root'] = self.build_model(self.base_model,inputs,len(self.tree))
+		models['root'].compile(self.optimizer, 
+								metrics=['accuracy'],
+								loss='categorical_crossentropy')
 
 		for key in self.tree:
 			outputs = len(self.tree[key]['fine'])
-			models[key] = self.build_model(self.base_model,inputs,outputs).compile(self.optimizer, 
-											metrics=['accuracy'],
-											loss='categorical_crossentropy')
+			models[key] = self.build_model(self.base_model,inputs,outputs)
+			models[key].compile(self.optimizer, 
+								metrics=['accuracy'],
+								loss='categorical_crossentropy')
 		return models
 
 	def fit(self):
