@@ -11,6 +11,7 @@ from keras.layers.core import Lambda
 from keras import backend as K
 from keras import regularizers
 import createTree
+import random
 
 
 class cifar100tree:
@@ -30,6 +31,7 @@ class cifar100tree:
 		self.model_dict = self.build_model_dict(base_model,inputs)
 		self.learning_rate = learning_rate
 		self.optimizers = keras.optimizers.ADAM(lr=self.learning_rate)
+		self.fit()
 		
 	def build_base_model(self):
 		inp = Input(shape=self.x_shape)
@@ -212,10 +214,31 @@ class cifar100tree:
             height_shift_range=0.1,  # randomly shift images vertically (fraction of total height)
             horizontal_flip=True,  # randomly flip images
             vertical_flip=False)  # randomly flip images
-		batch_iters['root'] = datagen.flow(x_batches['root'],y_batches['root',batch_size=self.batch_size])
-		for key in self.tree:
-			batch_iters[key] = datagen.flow(x_batches[key],y_batches[key],batch_size=self.batch_size)
+		k = 0
+		keys = ['root']
+		batches = [datagen.flow(x_batches['root'],y_batches['root',batch_size=self.batch_size])]
+		num_batches = len(batches[k])
+		batches_per = [len(batches[k])]
+		k += 1
 		
+		for key in self.tree:
+			keys += [key]
+			batches += [datagen.flow(x_batches[key],y_batches[key],batch_size=self.batch_size)]
+			num_batches += len(batches[k])
+			batches_per += [len(batches[k])]
+			k += 1
+		
+		for i in range(num_batches):
+			rng = random.randint(0,len(self.tree)+1)
+			if batches_per[rng]:
+				batches_per[rng] -= 1
+				x_batch,y_batch = batches[batches_per[rng]]
+				self.model_dict[key[rng]].train_on_batch(x_batch,y_batch)
+			else:
+				i -= 1
+
+
+
 
 
 
@@ -230,7 +253,7 @@ if __name__ == '__main__':
 
 	model = cifar100tree(weights="weights/cifar100vgg.h5")
 
-	predicted_x = model.predict(x_test)
-	residuals = (np.argmax(predicted_x,1)!=np.argmax(y_test,1))
-	loss = sum(residuals)/len(residuals)
-	print("the validation 0/1 loss is: ",loss)
+	# predicted_x = model.predict(x_test)
+	# residuals = (np.argmax(predicted_x,1)!=np.argmax(y_test,1))
+	# loss = sum(residuals)/len(residuals)
+	# print("the validation 0/1 loss is: ",loss)
