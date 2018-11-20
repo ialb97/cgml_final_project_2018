@@ -234,7 +234,7 @@ class cifar100tree:
 			if batches_per[rng]:
 				batches_per[rng] -= 1
 				x_batch,y_batch = batches[rng][batches_per[rng]]
-				self.model_dict[key[rng]].train_on_batch(x_batch,y_batch)
+				self.model_dict[keys[rng]].train_on_batch(x_batch,y_batch)
 			else:
 				i -= 1
 
