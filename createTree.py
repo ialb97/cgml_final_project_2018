@@ -26,8 +26,12 @@ def createTree(file='meta'):
 		batches_y[coarse_label] += [y_train_fine[i]]
 		batches_x['root'] += [x1[i]]
 		batches_y['root'] += [y_train_coarse[i]]
-	import pdb
-	pdb.set_trace()
+	# import pdb
+	# pdb.set_trace()
+	batches_x['root'] = numpy.array(batches_x['root'])
+
+	for key in output.keys():
+		batches_x[key] = numpy.array(batches_x[key])
 
 	return output,batches_x,batches_y
 	#import pdb
