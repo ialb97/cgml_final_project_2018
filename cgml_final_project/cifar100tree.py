@@ -31,8 +31,8 @@ class cifar100tree:
 		self.learning_rate = learning_rate
 		self.optimizer = keras.optimizers.Adam(lr=self.learning_rate)
 		self.model_dict = self.build_model_dict(self.base_model,self.inputs)
-		import pdb
-		pdb.set_trace()
+		# import pdb
+		# pdb.set_trace()
 		self.fit()
 		
 	def build_base_model(self):
