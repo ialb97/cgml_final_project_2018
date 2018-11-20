@@ -9,15 +9,18 @@ def createTree(file='meta'):
 	output = {}
 	(x1,y_train_coarse),(a,b) = cifar100.load_data(label_mode='coarse')
 	(x2,y_train_fine),(a,b) = cifar100.load_data(label_mode='fine')
+
 	for i in range(y_train_fine.size):
-		coarse_label = labels[b'coarse_labels'][y_train_coarse[i]]
-		fine_label = labels[b'fine_labels'][y_train_fine[i]]
-		if course_label not in output.keys():
-			output[course_label] = {'fine':{},'val':y_train_coarse[i]}
-		if fine_label not in output[course_label]['fine'].keys():
-			output[coarse_label]['fine'][fine_label] = y_train_fine[i]
+		coarse_label = labels[b'coarse_label_names'][y_train_coarse[i][0]].decode('utf-8')
+		fine_label = labels[b'fine_label_names'][y_train_fine[i][0]].decode('utf-8')
+		if coarse_label not in output.keys():
+			output[coarse_label] = {'fine':{},'val':str(y_train_coarse[i][0])}
+		if fine_label not in output[coarse_label]['fine'].keys():
+			output[coarse_label]['fine'][fine_label] = str(y_train_fine[i][0])
+	import pdb
+	pdb.set_trace()
 	with open('cifar100_v2.json','w') as writefile:
-		writefile.write(json.dump(output))
+		writefile.write(json.dumps(output))
 
 
 if __name__ == "__main__" :
