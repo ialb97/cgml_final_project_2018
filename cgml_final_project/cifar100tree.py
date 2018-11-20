@@ -193,13 +193,13 @@ class cifar100tree:
 
 		outputs['root'] = self.build_model(self.base_model,inputs,len(self.tree)).compile(self.optimizer, 
 											metrics=['accuracy'],
-											loss='categorical_cross_entropy')
+											loss='categorical_crossentropy')
 
 		for key in self.tree:
 			outputs = len(self.tree[key]['fine'])
 			models[key] = self.build_model(self.base_model,inputs,outputs).compile(self.optimizer, 
 											metrics=['accuracy'],
-											loss='categorical_cross_entropy')
+											loss='categorical_crossentropy')
 		return models
 
 	def fit(self):
