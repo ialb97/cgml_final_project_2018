@@ -22,7 +22,7 @@ def createTree(file='meta'):
 		if coarse_label not in batches_x.keys():
 			batches_x[coarse_label] = []
 			batches_y[coarse_label] = []
-		batches_x[coarse_label] += x2[i]
+		batches_x[coarse_label] += [x2[i]]
 		batches_y[coarse_label] += [y_train_fine[i]]
 		batches_x['root'] += [x1[i]]
 		batches_y['root'] += [y_train_coarse[i]]
