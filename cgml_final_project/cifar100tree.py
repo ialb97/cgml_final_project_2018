@@ -251,7 +251,7 @@ if __name__ == '__main__':
 	y_train = keras.utils.to_categorical(y_train, 100)
 	y_test = keras.utils.to_categorical(y_test, 100)
 
-	model = cifar100tree(weights="weights/cifar100vgg.h5")
+	model = cifar100tree(weights="cgml_final_project/weights/cifar100vgg.h5")
 
 	# predicted_x = model.predict(x_test)
 	# residuals = (np.argmax(predicted_x,1)!=np.argmax(y_test,1))
