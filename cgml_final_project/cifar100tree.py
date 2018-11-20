@@ -10,19 +10,28 @@ import numpy as np
 from keras.layers.core import Lambda
 from keras import backend as K
 from keras import regularizers
+import createTree
+
 
 class cifar100tree:
-	def __init__(self,weights=None):
+	def __init__(self,weights=None,learning_rate=.001):
+		self.batch_size = 32
 		self.num_classes = 100
 		self.weight_decay = 0.0005
 		self.x_shape = [32,32,3]
 
-		self.model = self.build_model()
+		self.inputs, self.base_model = self.build_base_model()
+		self.vgg_model = self.build_vgg_model(self.inputs,self.base_model)
 		if (weights):
-			self.model.load_weights(weights)
-		# self.model = self.train(self.model)
+			self.vgg_model.load_weights(weights)
+
+		self.tree,self.x_batches,self.y_batches = createTree.createTree()
 		
-	def build_model(self):
+		self.model_dict = self.build_model_dict(base_model,inputs)
+		self.learning_rate = learning_rate
+		self.optimizers = keras.optimizers.ADAM(lr=self.learning_rate)
+		
+	def build_base_model(self):
 		inp = Input(shape=self.x_shape)
 
 		weight_decay = self.weight_decay
@@ -128,10 +137,13 @@ class cifar100tree:
 
 		dense1 = dense1_do(dense1_b(dense1_a(dense1_d(conv13))))
 
+		return inp,dense1;
+
+	def build_vgg_model(self,inp,base_model):
 		dense2_d = Dense(self.num_classes)
 		dense2_a = Activation('softmax')
 
-		dense2 = dense2_a(dense2_d(dense1))
+		dense2 = dense2_a(dense2_d(base_model))
 
 		model = Model(inputs=inp,outputs=dense2)
 		
@@ -164,6 +176,49 @@ class cifar100tree:
 		if normalize:
 			x = self.normalize_production(x)
 		return self.model.predict(x,batch_size)
+
+
+	def build_model(self,base_model,inputs,outputs):
+		dense2_d = Dense(outputs)
+		dense2_a = Activation('softmax')
+
+		dense2 = dense2_a(dense2_d(base_model))
+		return Model(inputs=inputs,outputs=dense2)
+
+	def build_model_dict(self,base_model,inputs):
+		models = {}
+
+		outputs['root'] = self.build_model(self.base_model,inputs,len(self.tree)).compile(optimizer, 
+											metrics=['accuracy'],
+											loss='categorical_cross_entropy')
+
+		for key in self.tree:
+			outputs = len(self.tree[key]['fine'])
+			models[key] = self.build_model(self.base_model,inputs,outputs).compile(optimizer, 
+											metrics=['accuracy'],
+											loss='categorical_cross_entropy')
+		return models
+
+	def fit(self):
+		batch_iters = {}
+		datagen = ImageDataGenerator(
+            featurewise_center=False,  # set input mean to 0 over the dataset
+            samplewise_center=False,  # set each sample mean to 0
+            featurewise_std_normalization=False,  # divide inputs by std of the dataset
+            samplewise_std_normalization=False,  # divide each input by its std
+            zca_whitening=False,  # apply ZCA whitening
+            rotation_range=15,  # randomly rotate images in the range (degrees, 0 to 180)
+            width_shift_range=0.1,  # randomly shift images horizontally (fraction of total width)
+            height_shift_range=0.1,  # randomly shift images vertically (fraction of total height)
+            horizontal_flip=True,  # randomly flip images
+            vertical_flip=False)  # randomly flip images
+		batch_iters['root'] = datagen.flow(x_batches['root'],y_batches['root',batch_size=self.batch_size])
+		for key in self.tree:
+			batch_iters[key] = datagen.flow(x_batches[key],y_batches[key],batch_size=self.batch_size)
+		
+
+
+
 
 if __name__ == '__main__':
 	(x_train, y_train), (x_test, y_test) = cifar100.load_data()
