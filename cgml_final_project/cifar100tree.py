@@ -244,9 +244,6 @@ class cifar100tree:
 
 
 
-
-
-
 if __name__ == '__main__':
 	(x_train, y_train), (x_test, y_test) = cifar100.load_data()
 	x_train = x_train.astype('float32')
