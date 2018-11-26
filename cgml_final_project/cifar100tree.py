@@ -7,7 +7,7 @@ from keras.layers import Input, Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D, BatchNormalization
 from keras import optimizers
 import numpy as np
-from keras.util import to_categorical
+from keras.utils import to_categorical
 from keras.layers.core import Lambda
 from keras import backend as K
 from keras import regularizers
