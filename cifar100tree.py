@@ -217,8 +217,9 @@ class cifar100tree:
 								loss='categorical_crossentropy')
 		eval_models['root'].compile(self.optimizer,
 								loss='categorical_crossentropy')
-
 		for key in self.tree:
+			pdb.set_trace()
+
 			outputs = len(self.tree[key]['fine'])
 			models[key],eval_models[key] = self.build_model(self.base_model,inputs,outputs)
 			models[key].compile(self.optimizer, 
