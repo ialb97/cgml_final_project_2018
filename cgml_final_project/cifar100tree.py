@@ -207,7 +207,7 @@ class cifar100tree:
 								loss='categorical_crossentropy')
 		return models
 	def one_hot(self,labels):
-		mappings = {}
+		mapping = {}
 		new_batches = {}
 		for key in labels:
 			new_batches[key] = []
