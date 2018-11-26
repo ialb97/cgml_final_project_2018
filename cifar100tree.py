@@ -35,11 +35,12 @@ class cifar100tree:
 		self.tree,self.x_batches,self.y_batches,self.val_x_batches,self.val_y_batches = createTree.createTree()
 		self.get_root_mapping()
 		self.y_batches,self.mapping,self.reverse_mapping = self.one_hot(self.y_batches)
-		
+		self.cache_input = Input(shape=[512])
 		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
 		# import pdb
 		# pdb.set_trace()
 		#self.fit()
+
 		self.eval(self.val_x_batches,self.val_y_batches)
 		
 	def build_base_model(self):
@@ -198,7 +199,7 @@ class cifar100tree:
 
 		dense2 = dense2_a(dense2_d(base_model))
 		# pdb.set_trace()
-		return Model(inputs=inputs,outputs=dense2),Model(inputs=Input(input_shape=[512]),outputs=dense2)
+		return Model(inputs=inputs,outputs=dense2),Model(inputs=self.cache_input,outputs=dense2)
 
 	# def build_eval_model(self,base_model,inputs,outputs):
 
