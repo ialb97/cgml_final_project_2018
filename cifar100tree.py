@@ -24,6 +24,9 @@ class cifar100tree:
 		self.weight_decay = 0.0005
 		self.x_shape = [32,32,3]
 
+		self.learning_rate = learning_rate
+		self.optimizer = keras.optimizers.Adam(lr=self.learning_rate)
+
 		self.inputs, self.base_model, self.cache_model = self.build_base_model()
 		self.vgg_model = self.build_vgg_model(self.inputs,self.base_model)
 		if (weights):
@@ -33,8 +36,6 @@ class cifar100tree:
 		self.get_root_mapping()
 		self.y_batches,self.mapping,self.reverse_mapping = self.one_hot(self.y_batches)
 		
-		self.learning_rate = learning_rate
-		self.optimizer = keras.optimizers.Adam(lr=self.learning_rate)
 		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
 		# import pdb
 		# pdb.set_trace()
