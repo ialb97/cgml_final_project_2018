@@ -220,6 +220,7 @@ class cifar100tree:
 					mapping[key][entry[0]]=i
 					i+=1
 				new_batches[key][entry[0]] += [mapping[key][entry[0]]]
+				pdb.set_trace()
 			new_batches[key] = to_categorical(new_batches[key],i)
 		return new_batches
 
