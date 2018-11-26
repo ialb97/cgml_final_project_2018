@@ -258,7 +258,7 @@ class cifar100tree:
 		# pdb.set_trace()
 		
 		for i in range(num_batches):
-			rng = random.randint(0,len(self.tree)+1)
+			rng = random.randint(0,len(self.tree))
 			if batches_per[rng]:
 				batches_per[rng] -= 1
 				x_batch,y_batch = batches[rng][batches_per[rng]]
