@@ -2,6 +2,7 @@ import json
 import pickle
 import numpy
 from keras.datasets import cifar100
+from keras.utils import to_categorical
 
 def createTree(file='meta'):
 	ftr = open(file,'rb')
@@ -9,10 +10,16 @@ def createTree(file='meta'):
 	output = {}
 	batches_x = {'root':[]}
 	batches_y = {'root':[]}
-	(x1,y_train_coarse),(a,b) = cifar100.load_data(label_mode='coarse')
-	(x2,y_train_fine),(a,b) = cifar100.load_data(label_mode='fine')
+	(x1,y_train_coarse),_ = cifar100.load_data(label_mode='coarse')
+	(x2,y_train_fine),_ = cifar100.load_data(label_mode='fine')
 	x1 = x1/255
 	x2 = x2/255
+	val_batches_x = x2[45000:]
+	val_batches_y = to_categorical(y_train_fine[45000:])
+	x1 = x1[:45000]
+	x2 = x2[:45000]
+	y_train_fine = y_train_fine[:45000]
+	y_train_coarse = y_train_coarse[:45000]
 
 	for i in range(y_train_fine.size):
 		coarse_label = labels[b'coarse_label_names'][y_train_coarse[i][0]].decode('utf-8')
@@ -35,7 +42,7 @@ def createTree(file='meta'):
 	for key in output.keys():
 		batches_x[key] = numpy.array(batches_x[key])
 
-	return output,batches_x,batches_y
+	return output,batches_x,batches_y,val_batches_x,val_batches_y
 	#import pdb
 	#pdb.set_trace()
 	#with open('cifar100_v2.json','w') as writefile:

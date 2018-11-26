@@ -28,8 +28,9 @@ class cifar100tree:
 		if (weights):
 			self.vgg_model.load_weights(weights)
 
-		self.tree,self.x_batches,self.y_batches = createTree.createTree()
-		self.y_batches=self.one_hot(self.y_batches)
+		self.tree,self.x_batches,self.y_batches,self.val_x_batches,self.val_y_batches = createTree.createTree()
+		self.get_root_mapping()
+		self.y_batches,self.mapping,self.reverse_mapping = self.one_hot(self.y_batches)
 		
 		self.learning_rate = learning_rate
 		self.optimizer = keras.optimizers.Adam(lr=self.learning_rate)
@@ -210,19 +211,22 @@ class cifar100tree:
 
 	def one_hot(self,labels):
 		mapping = {}
+		reverse_mapping = {}
 		new_batches = {}
 		for key in labels:
 			new_batches[key] = []
 			mapping[key] = {}
+			reverse_mapping[key] = []
 			i=0
 			for entry in labels[key]:
 				val = entry[0]
 				if (val not in mapping[key].keys()):
 					mapping[key][val]=i
+					reverse_mapping[key] += [val]
 					i+=1
 				new_batches[key] += [mapping[key][val]]
 			new_batches[key] = to_categorical(new_batches[key],i)
-		return new_batches
+		return new_batches, mapping, reverse_mapping
 
 	def fit(self):
 		batch_iters = {}
@@ -259,6 +263,35 @@ class cifar100tree:
 				self.model_dict[keys[rng]].train_on_batch(x_batch,y_batch)
 			else:
 				i -= 1
+		print("accuracy: {}".format(self.eval_on_batch(datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1))))
+
+	def get_reverse_mapping(self):
+		self.root_mapping = [0]*len(self.tree)
+		for key in self.tree:
+			self.root_mapping[int(self.tree[key]['val'])] = key
+
+	def eval(self,x,y):
+		result = self.model_dict['root'].predict_on_batch(x)
+		val = np.where(result)[0][0]
+		key = self.root_mapping[val]
+		
+		result = self.model_dict[key].predict_on_batch(x)
+		val = np.where(result)[0][0]
+		key = self.reverse_mapping[key][val]
+		one_hot = to_categorical(key,self.num_classes)
+
+		return one_hot == y
+
+	def eval_on_batch(self,x_batch,y_batch):
+		# returns accuracy metric for batch
+		# note: currently batch size needs to be one
+		# TODO: make it not need to be 1
+		correct = 0
+		for x in x_batch:
+			if self.eval(x,y):
+				correct += 1
+		return correct/len(x_batch)
+
 
 
 
