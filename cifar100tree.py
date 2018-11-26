@@ -254,6 +254,8 @@ class cifar100tree:
 			num_batches += len(batches[k])
 			batches_per += [len(batches[k])]
 			k += 1
+
+		pdb.set_trace()
 		
 		for i in range(num_batches):
 			rng = random.randint(0,len(self.tree)+1)
@@ -261,6 +263,7 @@ class cifar100tree:
 				batches_per[rng] -= 1
 				x_batch,y_batch = batches[rng][batches_per[rng]]
 				self.model_dict[keys[rng]].train_on_batch(x_batch,y_batch)
+				print("Batch:{:3.0f}/{}\r".format(i,num_batches))
 			else:
 				i -= 1
 		print("accuracy: {}".format(self.eval_on_batch(datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1))))
