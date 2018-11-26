@@ -216,7 +216,7 @@ class cifar100tree:
 			i=0
 			for entry in labels[key]:
 				pdb.set_trace()
-				if entry[0] not in mapping[key]:
+				if (entry[0] not in mapping[key].keys()):
 					mapping[key][entry[0]]=i
 					i+=1
 				new_batches[key][entry[0]] += [mapping[key][entry[0]]]
