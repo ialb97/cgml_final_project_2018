@@ -216,10 +216,10 @@ class cifar100tree:
 			i=0
 			for entry in labels[key]:
 				pdb.set_trace()
-				if entry not in mapping[key]:
-					mapping[key][entry]=i
+				if entry[0] not in mapping[key]:
+					mapping[key][entry[0]]=i
 					i+=1
-				new_batches[key][entry] += [mapping[key][entry]]
+				new_batches[key][entry[0]] += [mapping[key][entry[0]]]
 			new_batches[key] = to_categorical(new_batches[key],i)
 		return new_batches
 
