@@ -16,6 +16,7 @@ import random
 import pdb
 
 
+
 class cifar100tree:
 	def __init__(self,weights=None,learning_rate=.001):
 		self.batch_size = 32
@@ -23,7 +24,7 @@ class cifar100tree:
 		self.weight_decay = 0.0005
 		self.x_shape = [32,32,3]
 
-		self.inputs, self.base_model,self.shared_output = self.build_base_model()
+		self.inputs, self.base_model, self.cache_model = self.build_base_model()
 		self.vgg_model = self.build_vgg_model(self.inputs,self.base_model)
 		if (weights):
 			self.vgg_model.load_weights(weights)
@@ -34,7 +35,7 @@ class cifar100tree:
 		
 		self.learning_rate = learning_rate
 		self.optimizer = keras.optimizers.Adam(lr=self.learning_rate)
-		self.model_dict = self.build_model_dict(self.base_model,self.inputs)
+		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
 		# import pdb
 		# pdb.set_trace()
 		#self.fit()
@@ -146,7 +147,10 @@ class cifar100tree:
 
 		dense1 = dense1_do(dense1_b(dense1_a(dense1_d(conv13))))
 
-		return inp,dense1,dense1_do
+		model = Model(inputs=inp,outputs=dense1)
+		model.compile(self.optimizer)
+
+		return inp,dense1,model
 
 	def build_vgg_model(self,inp,base_model):
 		dense2_d = Dense(self.num_classes)
@@ -192,23 +196,30 @@ class cifar100tree:
 		dense2_a = Activation('softmax')
 
 		dense2 = dense2_a(dense2_d(base_model))
-		return Model(inputs=inputs,outputs=dense2)
+		return Model(inputs=inputs,outputs=dense2),Model(inputs=Input(shape=self.base_model.shape[1]),outputs=dense2)
+
+	# def build_eval_model(self,base_model,inputs,outputs):
+
 
 	def build_model_dict(self,base_model,inputs):
 		models = {}
+		eval_models = {}
 
-		models['root'] = self.build_model(self.base_model,inputs,len(self.tree))
+		models['root'],eval_models['root'] = self.build_model(self.base_model,inputs,len(self.tree))
 		models['root'].compile(self.optimizer, 
 								metrics=['accuracy'],
 								loss='categorical_crossentropy')
+		eval_models['root'].compile(self.optimizer)
 
 		for key in self.tree:
 			outputs = len(self.tree[key]['fine'])
-			models[key] = self.build_model(self.base_model,inputs,outputs)
+			models[key],eval_models[key] = self.build_model(self.base_model,inputs,outputs)
 			models[key].compile(self.optimizer, 
 								metrics=['accuracy'],
 								loss='categorical_crossentropy')
-		return models
+			eval_models[key].compile(self.optimizer)
+
+		return models,eval_models
 
 	def one_hot(self,labels):
 		mapping = {}
@@ -280,8 +291,8 @@ class cifar100tree:
 			self.root_mapping[int(self.tree[key]['val'])] = key
 
 	def eval(self,x,y):
-		result = self.model_dict['root'].predict_on_batch(x)
-		cached_output = self.shared_output.output
+		cached_output = self.cache_model.predict_on_batch(x)
+
 		pdb.set_trace()
 		val = np.argmax(result)
 		pdb.set_trace()
