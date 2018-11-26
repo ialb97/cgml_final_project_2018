@@ -207,6 +207,7 @@ class cifar100tree:
 								metrics=['accuracy'],
 								loss='categorical_crossentropy')
 		return models
+
 	def one_hot(self,labels):
 		mapping = {}
 		new_batches = {}
@@ -215,20 +216,13 @@ class cifar100tree:
 			mapping[key] = {}
 			i=0
 			for entry in labels[key]:
-				pdb.set_trace()
 				val = entry[0]
 				if (val not in mapping[key].keys()):
 					mapping[key][val]=i
 					i+=1
-				new_batches[key] += [mapping[key][entry[0]]]
-				pdb.set_trace()
+				new_batches[key] += [mapping[key][val]]
 			new_batches[key] = to_categorical(new_batches[key],i)
 		return new_batches
-
- 		# for key in self.y_batches:
-		# 	y_batches[key]
-
-
 
 	def fit(self):
 		batch_iters = {}
