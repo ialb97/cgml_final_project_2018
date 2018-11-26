@@ -199,7 +199,9 @@ class cifar100tree:
 
 		dense2 = dense2_a(dense2_d(base_model))
 		# pdb.set_trace()
-		return Model(inputs=inputs,outputs=dense2),Model(inputs=self.cache_input,outputs=dense2)
+		train_model = Model(inputs=inputs,outputs=dense2)
+		eval_model = Model(inputs=self.cache_input,outputs=dense2)
+		return train_model,eval_model
 
 	# def build_eval_model(self,base_model,inputs,outputs):
 
