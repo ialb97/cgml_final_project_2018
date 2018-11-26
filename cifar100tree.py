@@ -198,9 +198,10 @@ class cifar100tree:
 		dense2_a = Activation('softmax')
 
 		dense2 = dense2_a(dense2_d(base_model))
+		dense2_eval = dense2_a(dense2_d(self.cache_input))
 		# pdb.set_trace()
 		train_model = Model(inputs=inputs,outputs=dense2)
-		eval_model = Model(inputs=self.cache_input,outputs=dense2)
+		eval_model = Model(inputs=self.cache_input,outputs=dense2_eval)
 		return train_model,eval_model
 
 	# def build_eval_model(self,base_model,inputs,outputs):
