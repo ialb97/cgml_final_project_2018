@@ -268,8 +268,8 @@ class cifar100tree:
 				i -= 1
 
 		# pdb.set_trace()
-		for model in model_dict:
-			model_dict[model].save_weights('weights/cifar100tree_{}.h5'.format(model))
+		for model in self.model_dict:
+			self.model_dict[model].save_weights('weights/cifar100tree_{}.h5'.format(model))
 		print("accuracy: {}".format(self.eval_on_batch(datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1))))
 
 	def get_root_mapping(self):
