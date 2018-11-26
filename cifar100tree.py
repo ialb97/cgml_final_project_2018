@@ -215,7 +215,8 @@ class cifar100tree:
 		models['root'].compile(self.optimizer, 
 								metrics=['accuracy'],
 								loss='categorical_crossentropy')
-		eval_models['root'].compile(self.optimizer)
+		eval_models['root'].compile(self.optimizer,
+								loss='categorical_crossentropy')
 
 		for key in self.tree:
 			outputs = len(self.tree[key]['fine'])
@@ -223,7 +224,8 @@ class cifar100tree:
 			models[key].compile(self.optimizer, 
 								metrics=['accuracy'],
 								loss='categorical_crossentropy')
-			eval_models[key].compile(self.optimizer)
+			eval_models[key].compile(self.optimizer,
+								loss='categorical_crossentropy')
 
 		return models,eval_models
 
