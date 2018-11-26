@@ -284,7 +284,7 @@ class cifar100tree:
 		key = self.root_mapping[val]
 		
 		result = self.model_dict[key].predict_on_batch(x)
-		val = np.argmax(result)[0][0]
+		val = np.argmax(result)
 		key = self.reverse_mapping[key][val]
 		one_hot = to_categorical(key,self.num_classes)
 
