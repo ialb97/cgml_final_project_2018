@@ -23,7 +23,7 @@ class cifar100tree:
 		self.weight_decay = 0.0005
 		self.x_shape = [32,32,3]
 
-		self.inputs, self.base_model = self.build_base_model()
+		self.inputs, self.base_model,self.shared_output = self.build_base_model()
 		self.vgg_model = self.build_vgg_model(self.inputs,self.base_model)
 		if (weights):
 			self.vgg_model.load_weights(weights)
@@ -37,7 +37,8 @@ class cifar100tree:
 		self.model_dict = self.build_model_dict(self.base_model,self.inputs)
 		# import pdb
 		# pdb.set_trace()
-		self.fit()
+		#self.fit()
+		self.eval(self.val_x_batches,self.val_y_batches)
 		
 	def build_base_model(self):
 		inp = Input(shape=self.x_shape)
@@ -145,7 +146,7 @@ class cifar100tree:
 
 		dense1 = dense1_do(dense1_b(dense1_a(dense1_d(conv13))))
 
-		return inp,dense1;
+		return inp,dense1,dense1_do
 
 	def build_vgg_model(self,inp,base_model):
 		dense2_d = Dense(self.num_classes)
@@ -280,10 +281,14 @@ class cifar100tree:
 
 	def eval(self,x,y):
 		result = self.model_dict['root'].predict_on_batch(x)
+		cached_output = self.shared_output.output
+		pdb.set_trace()
 		val = np.argmax(result)
+		pdb.set_trace()
 		key = self.root_mapping[val]
 		
 		result = self.model_dict[key].predict_on_batch(x)
+
 		val = np.argmax(result)
 		key = self.reverse_mapping[key][val]
 		one_hot = to_categorical(key,self.num_classes)
@@ -294,6 +299,7 @@ class cifar100tree:
 		# returns accuracy metric for batch
 		# note: currently batch size needs to be one
 		# TODO: make it not need to be 1
+
 		correct = 0
 		for x,y in batches:
 			if self.eval(x,y):
