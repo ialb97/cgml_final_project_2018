@@ -265,7 +265,7 @@ class cifar100tree:
 				i -= 1
 		print("accuracy: {}".format(self.eval_on_batch(datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1))))
 
-	def get_reverse_mapping(self):
+	def get_root_mapping(self):
 		self.root_mapping = [0]*len(self.tree)
 		for key in self.tree:
 			self.root_mapping[int(self.tree[key]['val'])] = key
