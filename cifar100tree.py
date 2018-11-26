@@ -256,22 +256,22 @@ class cifar100tree:
 			k += 1
 
 		# pdb.set_trace()
-		
-		for i in range(num_batches):
-			rng = random.randint(0,len(self.tree))
-			if batches_per[rng]:
-				batches_per[rng] -= 1
-				x_batch,y_batch = batches[rng][batches_per[rng]]
-				self.model_dict[keys[rng]].train_on_batch(x_batch,y_batch)
-				print("Batch:{}/{}".format(i,num_batches),end='\r')
-			else:
-				i -= 1
+		for epoch in range(10):
+			for i in range(num_batches):
+				rng = random.randint(0,len(self.tree))
+				if batches_per[rng]:
+					batches_per[rng] -= 1
+					x_batch,y_batch = batches[rng][batches_per[rng]]
+					self.model_dict[keys[rng]].train_on_batch(x_batch,y_batch)
+					print("Batch:{}/{}".format(i,num_batches),end='\r')
+				else:
+					i -= 1
 
-		# pdb.set_trace()
-		for model in self.model_dict:
-			self.model_dict[model].save_weights('weights/cifar100tree_{}.h5'.format(model))
-		batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
-		print("accuracy: {}".format(self.eval_on_batch(batches)))
+			# pdb.set_trace()
+			for model in self.model_dict:
+				self.model_dict[model].save_weights('weights/cifar100tree_{}.h5'.format(model))
+			batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
+			print("Epoch: {}/10\taccuracy: {}".format(epoch,self.eval_on_batch(batches)))
 
 	def get_root_mapping(self):
 		self.root_mapping = [0]*len(self.tree)
