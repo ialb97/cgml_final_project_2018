@@ -270,8 +270,8 @@ class cifar100tree:
 		# pdb.set_trace()
 		for model in self.model_dict:
 			self.model_dict[model].save_weights('weights/cifar100tree_{}.h5'.format(model))
-		x_batch,y_batch = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
-		print("accuracy: {}".format(self.eval_on_batch(x_batch,y_batch)))
+		batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
+		print("accuracy: {}".format(self.eval_on_batch(batches)))
 
 	def get_root_mapping(self):
 		self.root_mapping = [0]*len(self.tree)
@@ -290,12 +290,12 @@ class cifar100tree:
 
 		return one_hot == y
 
-	def eval_on_batch(self,x_batch,y_batch):
+	def eval_on_batch(self,batches):
 		# returns accuracy metric for batch
 		# note: currently batch size needs to be one
 		# TODO: make it not need to be 1
 		correct = 0
-		for x in x_batch:
+		for x,y in batches:
 			if self.eval(x,y):
 				correct += 1
 		return correct/len(x_batch)
