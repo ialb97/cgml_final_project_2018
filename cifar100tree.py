@@ -280,6 +280,7 @@ class cifar100tree:
 
 	def eval(self,x,y):
 		result = self.model_dict['root'].predict_on_batch(x)
+		pdb.set_trace()
 		val = np.where(result)[0][0]
 		key = self.root_mapping[val]
 		
