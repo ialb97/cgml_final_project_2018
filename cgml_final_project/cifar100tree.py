@@ -13,6 +13,7 @@ from keras import backend as K
 from keras import regularizers
 import createTree
 import random
+import pdb
 
 
 class cifar100tree:
@@ -214,6 +215,7 @@ class cifar100tree:
 			mapping[key] = {}
 			i=0
 			for entry in labels[key]:
+				pdb.set_trace()
 				if entry not in mapping[key]:
 					mapping[key][entry]=i
 					i+=1
