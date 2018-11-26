@@ -263,7 +263,7 @@ class cifar100tree:
 				batches_per[rng] -= 1
 				x_batch,y_batch = batches[rng][batches_per[rng]]
 				self.model_dict[keys[rng]].train_on_batch(x_batch,y_batch)
-				print("Batch:{:3.0f}/{}\r".format(i,num_batches))
+				print("Batch:{:3.0f}/{}".format(i,num_batches),end='\r')
 			else:
 				i -= 1
 
