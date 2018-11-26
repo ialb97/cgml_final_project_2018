@@ -213,7 +213,7 @@ class cifar100tree:
 			new_batches[key] = []
 			mapping[key] = {}
 			i=0
-			for entry in batches[key]:
+			for entry in labels[key]:
 				if entry not in mapping[key]:
 					mapping[key][entry]=i
 					i+=1
