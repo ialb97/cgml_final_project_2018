@@ -288,7 +288,7 @@ class cifar100tree:
 		key = self.reverse_mapping[key][val]
 		one_hot = to_categorical(key,self.num_classes)
 
-		return one_hot == y
+		return np.array_equal(one_hot,y)
 
 	def eval_on_batch(self,batches):
 		# returns accuracy metric for batch
