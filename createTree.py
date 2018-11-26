@@ -11,6 +11,8 @@ def createTree(file='meta'):
 	batches_y = {'root':[]}
 	(x1,y_train_coarse),(a,b) = cifar100.load_data(label_mode='coarse')
 	(x2,y_train_fine),(a,b) = cifar100.load_data(label_mode='fine')
+	x1 = x1/255
+	x2 = x2/255
 
 	for i in range(y_train_fine.size):
 		coarse_label = labels[b'coarse_label_names'][y_train_coarse[i][0]].decode('utf-8')

@@ -7,6 +7,7 @@ from keras.layers import Input, Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D, BatchNormalization
 from keras import optimizers
 import numpy as np
+from keras.util import to_categorical
 from keras.layers.core import Lambda
 from keras import backend as K
 from keras import regularizers
@@ -27,6 +28,7 @@ class cifar100tree:
 			self.vgg_model.load_weights(weights)
 
 		self.tree,self.x_batches,self.y_batches = createTree.createTree()
+		self.y_batches=self.one_hot(self.y_batches)
 		
 		self.learning_rate = learning_rate
 		self.optimizer = keras.optimizers.Adam(lr=self.learning_rate)
@@ -204,6 +206,25 @@ class cifar100tree:
 								metrics=['accuracy'],
 								loss='categorical_crossentropy')
 		return models
+	def one_hot(self,labels):
+		mappings = {}
+		new_batches = {}
+		for key in labels:
+			new_batches[key] = []
+			mapping[key] = {}
+			i=0
+			for entry in batches[key]:
+				if entry not in mapping[key]:
+					mapping[key][entry]=i
+					i+=1
+				new_batches[key][entry] += [mapping[key][entry]]
+			new_batches[key] = to_categorical(new_batches[key],i)
+		return new_batches
+
+ 		# for key in self.y_batches:
+		# 	y_batches[key]
+
+
 
 	def fit(self):
 		batch_iters = {}
