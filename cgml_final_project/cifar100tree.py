@@ -220,7 +220,7 @@ class cifar100tree:
 				if (val not in mapping[key].keys()):
 					mapping[key][val]=i
 					i+=1
-				new_batches[key][val] += [mapping[key][entry[0]]]
+				new_batches[key] += [mapping[key][entry[0]]]
 				pdb.set_trace()
 			new_batches[key] = to_categorical(new_batches[key],i)
 		return new_batches
