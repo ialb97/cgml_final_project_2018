@@ -18,7 +18,7 @@ import pdb
 
 
 class cifar100tree:
-	def __init__(self,weights=None,learning_rate=.001):
+	def __init__(self,weights=None,learning_rate=.01):
 		self.batch_size = 32
 		self.num_classes = 100
 		self.weight_decay = 0.0005
@@ -39,7 +39,7 @@ class cifar100tree:
 		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
 		
 		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
-		self.fit(10000)
+		self.fit(1000)
 		
 	def build_base_model(self):
 		inp = Input(shape=self.x_shape)
