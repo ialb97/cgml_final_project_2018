@@ -42,9 +42,6 @@ def createTree(file='meta'):
 		batches_y[coarse_label] += [y_train_fine[i]]
 		batches_x['root'] += [x1[i]]
 		batches_y['root'] += [y_train_coarse[i]]
-	# import pdb
-	# pdb.set_trace()
-	batches_x['root'] = numpy.array(batches_x['root'])
 
 	for i in range(y_val_fine.size):
 		coarse_label = labels[b'coarse_label_names'][y_val_coarse[i][0]].decode('utf-8')
@@ -59,8 +56,12 @@ def createTree(file='meta'):
 		val_batches_x['root'] += [x1_val[i]]
 		val_batches_y['root'] += [y_val_coarse[i]]
 
+	batches_x['root'] = numpy.array(batches_x['root'])
+	val_batches_x['root'] = numpy.array(val_batches_x['root'])
+
 	for key in output.keys():
 		batches_x[key] = numpy.array(batches_x[key])
+		val_batches_x[key] = numpy.array(val_batches_x[key])
 
 	return output,batches_x,batches_y,val_batches_x,val_batches_y
 	#import pdb
