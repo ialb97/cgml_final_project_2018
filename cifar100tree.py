@@ -299,6 +299,8 @@ class cifar100tree:
 			self.root_mapping[int(self.tree[key]['val'])] = key
 
 	def eval(self,x_batches,y_batches):
+		correct = 0
+		total = 0
 		for key in x_batches:
 			if key != 'root': 
 				cached_output = self.cache_model.predict_on_batch(x_batches[key])
@@ -308,12 +310,14 @@ class cifar100tree:
 				
 				coarse_correct = np.where(coarse_result==int(self.tree[key]['val']))
 				fine_correct = np.where(np.array([self.reverse_mapping[key][index] for index in fine_result])==y_batches[key])
-				pdb.set_trace()
+				correct += np.intersect1d(coarse_correct,fine_correct).size
+				total += x_batches.shape[0]
+
 
 				# key = self.reverse_mapping[key][val]
 				
-
-		return 
+		pdb.set_trace()
+		return correct/total
 
 	def eval_on_batch(self,batches):
 		# returns accuracy metric for batch
