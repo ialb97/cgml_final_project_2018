@@ -46,7 +46,7 @@ def createTree(file='meta'):
 	# pdb.set_trace()
 	batches_x['root'] = numpy.array(batches_x['root'])
 
-	for i in range(val_batches_x.size):
+	for i in range(y_val_fine.size):
 		coarse_label = labels[b'coarse_label_names'][y_val_coarse[i][0]].decode('utf-8')
 		fine_label = labels[b'fine_label_names'][y_val_fine[i][0]].decode('utf-8')
 
