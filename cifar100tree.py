@@ -300,14 +300,14 @@ class cifar100tree:
 
 	def eval(self,x_batches,y_batches):
 		for key in x_batches:
-			if key != 'root': 
+			if key !c= 'root': 
 				cached_output = self.cache_model.predict_on_batch(x_batches[key])
 				
 				coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output),axis=1)
 				fine_result = np.argmax(self.eval_model_dict[key].predict_on_batch(cached_output),axis=1)
 				
 				coarse_correct = np.where(coarse_result==int(self.tree[key]['val']))
-				# fine_correct = np.where(np.array([self.reverse_mapping[key][index] for index in fine_result.to_list()])==y_batches[key])
+				fine_correct = np.where(np.array([self.reverse_mapping[key][index] for index in fine_result])==y_batches[key])
 				pdb.set_trace()
 
 				# key = self.reverse_mapping[key][val]
