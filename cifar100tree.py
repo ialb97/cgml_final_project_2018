@@ -39,7 +39,7 @@ class cifar100tree:
 		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
 		# import pdb
 		# pdb.set_trace()
-		#self.fit()
+		self.fit()
 
 		self.eval(self.val_x_batches,self.val_y_batches)
 		
@@ -311,7 +311,6 @@ class cifar100tree:
 				fine_correct = np.where(np.array([self.reverse_mapping[key][index] for index in fine_result])==y_batches[key])
 				correct += np.intersect1d(coarse_correct,fine_correct).size
 				
-		pdb.set_trace()
 		return correct/y_batches['root'].shape[0]
 
 	def eval_on_batch(self,batches):
