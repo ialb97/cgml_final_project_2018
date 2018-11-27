@@ -10,12 +10,19 @@ def createTree(file='meta'):
 	output = {}
 	batches_x = {'root':[]}
 	batches_y = {'root':[]}
+
+	val_batches_x = {'root':[]}
+	val_batches_y = {'root':[]}
+
 	(x1,y_train_coarse),_ = cifar100.load_data(label_mode='coarse')
 	(x2,y_train_fine),_ = cifar100.load_data(label_mode='fine')
+
 	x1 = x1/255
 	x2 = x2/255
-	val_batches_x = x2[45000:]
-	val_batches_y = to_categorical(y_train_fine[45000:])
+	x1_val = x1[45000:]
+	x2_val = x2[45000:]
+	val_batches_y_val_fine = y_train_fine[45000:]
+	y_val_coarse = y_train_coarse[45000:]
 	x1 = x1[:45000]
 	x2 = x2[:45000]
 	y_train_fine = y_train_fine[:45000]
@@ -38,6 +45,19 @@ def createTree(file='meta'):
 	# import pdb
 	# pdb.set_trace()
 	batches_x['root'] = numpy.array(batches_x['root'])
+
+	for i in range(val_batches_x.size):
+		coarse_label = labels[b'coarse_label_names'][y_val_coarse[i][0]].decode('utf-8')
+		fine_label = labels[b'fine_label_names'][y_val_fine[i][0]].decode('utf-8')
+
+		if coarse_label not in val_batches_x.keys():
+			val_batches_x[coarse_label] = []
+			val_batches_y[coarse_label] = []
+
+		val_batches_x[coarse_label] += [x2_val[i]]
+		val_batches_y[coarse_label] += [y_val_fine[i]]
+		val_batches_x['root'] += [x1_val[i]]
+		val_batches_y['root'] += [y_val_coarse[i]]
 
 	for key in output.keys():
 		batches_x[key] = numpy.array(batches_x[key])

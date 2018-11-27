@@ -247,6 +247,7 @@ class cifar100tree:
 					i+=1
 				new_batches[key] += [mapping[key][val]]
 			new_batches[key] = to_categorical(new_batches[key],i)
+		pdb.set_trace()
 		return new_batches, mapping, reverse_mapping
 
 	def fit(self):
@@ -299,21 +300,20 @@ class cifar100tree:
 		for key in self.tree:
 			self.root_mapping[int(self.tree[key]['val'])] = key
 
-	def eval(self,x,y):
-		cached_output = self.cache_model.predict_on_batch(x)
+	def eval(self,x_batches,y_batches):
+		for key in x_batches:
+			if key == 'root': 
+				cached_output = self.cache_model.predict_on_batch(x_batches[key])
+				
+				coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
 
-		pdb.set_trace()
-		val = np.argmax(result)
-		pdb.set_trace()
-		key = self.root_mapping[val]
-		
-		result = self.model_dict[key].predict_on_batch(x)
+				fine_result = np.argmax(self.eval_model_dict[key].predict_on_batch(cached_output))
+				y_batches[key]
 
-		val = np.argmax(result)
-		key = self.reverse_mapping[key][val]
-		one_hot = to_categorical(key,self.num_classes)
+				key = self.reverse_mapping[key][val]
+				
 
-		return np.array_equal(one_hot,y)
+		return 
 
 	def eval_on_batch(self,batches):
 		# returns accuracy metric for batch
