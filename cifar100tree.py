@@ -38,7 +38,7 @@ class cifar100tree:
 		self.cache_input = Input(shape=[512])
 		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
 		
-		print("Epoch: {}/10\taccuracy: {}".format(epoch,self.eval(self.val_x_batches,self.val_y_batches)))
+		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
 		self.fit()
 		
 	def build_base_model(self):
