@@ -39,7 +39,7 @@ class cifar100tree:
 		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
 		
 		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
-		self.fit()
+		self.fit(10000)
 		
 	def build_base_model(self):
 		inp = Input(shape=self.x_shape)
@@ -246,7 +246,7 @@ class cifar100tree:
 		# pdb.set_trace()
 		return new_batches, mapping, reverse_mapping
 
-	def fit(self):
+	def fit(self,epochs):
 		batch_iters = {}
 		datagen = ImageDataGenerator(
             featurewise_center=False,  # set input mean to 0 over the dataset
@@ -274,7 +274,7 @@ class cifar100tree:
 			k += 1
 
 		# pdb.set_trace()
-		for epoch in range(10):
+		for epoch in range(epochs):
 			for i in range(num_batches):
 				rng = random.randint(0,len(self.tree))
 				if batches_per[rng]:
