@@ -305,12 +305,13 @@ class cifar100tree:
 			if key == 'root': 
 				cached_output = self.cache_model.predict_on_batch(x_batches[key])
 				
-				coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
+				coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output),axis=1)
 
-				fine_result = np.argmax(self.eval_model_dict[key].predict_on_batch(cached_output))
-				y_batches[key]
+				fine_result = np.argmax(self.eval_model_dict[key].predict_on_batch(cached_output),axis=1)
+				
+				pdb.set_trace()
 
-				key = self.reverse_mapping[key][val]
+				# key = self.reverse_mapping[key][val]
 				
 
 		return 
