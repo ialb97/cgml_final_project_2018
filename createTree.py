@@ -52,16 +52,18 @@ def createTree(file='meta'):
 			val_batches_y[coarse_label] = []
 
 		val_batches_x[coarse_label] += [x2_val[i]]
-		val_batches_y[coarse_label] += [y_val_fine[i]]
+		val_batches_y[coarse_label] += y_val_fine[i].tolist()
 		val_batches_x['root'] += [x1_val[i]]
-		val_batches_y['root'] += [y_val_coarse[i]]
+		val_batches_y['root'] += y_val_coarse[i].tolist()
 
 	batches_x['root'] = numpy.array(batches_x['root'])
 	val_batches_x['root'] = numpy.array(val_batches_x['root'])
+	val_batches_y['root'] = numpy.array(val_batches_y['root'])
 
 	for key in output.keys():
 		batches_x[key] = numpy.array(batches_x[key])
 		val_batches_x[key] = numpy.array(val_batches_x[key])
+		val_batches_y[key] = numpy.array(val_batches_y[key])
 
 	return output,batches_x,batches_y,val_batches_x,val_batches_y
 	#import pdb
