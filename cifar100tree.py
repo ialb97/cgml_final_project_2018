@@ -37,11 +37,9 @@ class cifar100tree:
 		self.y_batches,self.mapping,self.reverse_mapping = self.one_hot(self.y_batches)
 		self.cache_input = Input(shape=[512])
 		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
-		# import pdb
-		# pdb.set_trace()
+		
+		print("Epoch: {}/10\taccuracy: {}".format(epoch,self.eval(self.val_x_batches,self.val_y_batches)))
 		self.fit()
-
-		self.eval(self.val_x_batches,self.val_y_batches)
 		
 	def build_base_model(self):
 		inp = Input(shape=self.x_shape)
@@ -290,8 +288,8 @@ class cifar100tree:
 			# pdb.set_trace()
 			for model in self.model_dict:
 				self.model_dict[model].save_weights('weights/cifar100tree_{}.h5'.format(model))
-			batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
-			print("Epoch: {}/10\taccuracy: {}".format(epoch,self.eval_on_batch(batches)))
+			# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
+			print("Epoch: {}/10\taccuracy: {}".format(epoch,self.eval(self.val_x_batches,self.val_y_batches)))
 
 	def get_root_mapping(self):
 		self.root_mapping = [0]*len(self.tree)
