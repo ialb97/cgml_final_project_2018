@@ -264,6 +264,7 @@ class cifar100tree:
 		for epoch in range(epochs):
 			num_batches = 0
 			batches_per = []
+			keys = []
 			k = 0
 			keys = ['root']
 			batches = [datagen.flow(self.x_batches['root'],self.y_batches['root'],batch_size=self.batch_size)]
@@ -271,11 +272,11 @@ class cifar100tree:
 			batches_per = [len(batches[k])]
 			k += 1
 			for key in self.tree:
-			keys += [key]
-			batches += [datagen.flow(self.x_batches[key],self.y_batches[key],batch_size=self.batch_size)]
-			num_batches += len(batches[k])
-			batches_per += [len(batches[k])]
-			k += 1
+				keys += [key]
+				batches += [datagen.flow(self.x_batches[key],self.y_batches[key],batch_size=self.batch_size)]
+				num_batches += len(batches[k])
+				batches_per += [len(batches[k])]
+				k += 1
 			for i in range(num_batches):
 				rng = random.randint(0,len(self.tree))
 				if batches_per[rng]:
