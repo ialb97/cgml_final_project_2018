@@ -147,7 +147,7 @@ class cifar100tree:
 
 		dense1 = dense1_do(dense1_b(dense1_a(dense1_d(conv13))))
 
-		model = Model(inputs=inp,outputs=dense1)
+		model = Model(inputs=inp,outputs=conv13)
 		model.compile(self.optimizer)
 
 		return inp,dense1,model
