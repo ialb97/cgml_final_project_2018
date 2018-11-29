@@ -59,7 +59,7 @@ conv3_i = Flatten()
 conv3 = conv3_i(conv3_g(conv3_f(conv3_e(conv3_d(conv3_c(conv3_b(conv3_a(conv3_h(conv2)))))))))
 
 model = Model(inputs=inp,outputs=conv3)
-model.compile(loss=keras.losses.categorical_crossentropy,optimizer=self.optimizer, metrics = ['accuracy'])
+model.compile(loss=keras.losses.categorical_crossentropy,optimizer=keras.optimizers.Adam(lr=.001), metrics = ['accuracy'])
 
 BATCH_SIZE = 32
 NUM_CLASSES = 100
