@@ -37,7 +37,7 @@ class cifar100tree:
 		self.y_batches,self.mapping,self.reverse_mapping = self.one_hot(self.y_batches)
 		self.cache_input = Input(shape=[512])
 		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
-		
+		print("Initialized\tsuper-category accuracy: {}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches)))
 		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
 		self.fit_on_root(1000)
 		self.fit(1000)
