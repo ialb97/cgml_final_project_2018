@@ -45,7 +45,7 @@ class cifar100tree:
 
 		print("Initialized\tsuper-category accuracy: {}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches)))
 		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
-		self.fit_on_root(10)
+		self.fit_on_root(1)
 		self.fit(1000)
 		
 	def build_base_model(self):
@@ -299,7 +299,8 @@ class cifar100tree:
 				self.model_dict[model].save_weights('weights/cifar100tree_{}.h5'.format(model))
 			# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
 			print("Batch:{0}/{0}".format(num_batches))
-			print("Epoch: {0}/{0}\taccuracy: {1}".format(epoch+1,self.eval(self.val_x_batches,self.val_y_batches)))
+			print("Epoch: {0}/{1}\tsuper-category accuracy: {2}\t accuracy: {3}".format(epoch+1,epochsself.eval_on_root(self.val_x_batches,self.val_y_batches),
+																self.eval(self.val_x_batches,self.val_y_batches)))
 
 	def get_root_mapping(self):
 		self.root_mapping = [0]*len(self.tree)
