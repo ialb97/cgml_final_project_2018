@@ -17,8 +17,12 @@ import createTree
 import random
 import pdb
 
+rows, cols,channels = 32,32,3
 
-inp = Input(shape=self.x_shape)
+input_shape = (rows, cols, channels)
+
+
+inp = Input(shape=input_shape)
 
 conv1_h = Conv2D(32,(2,2),padding='same',input_shape=self.x_shape)
 conv1_a = BatchNormalization()
@@ -61,7 +65,6 @@ BATCH_SIZE = 32
 NUM_CLASSES = 100
 EPOCHS = 200
 
-rows, cols,channels = 32,32,3
 
 (x_train,y_train),(x_test,y_test) = cifar100.load_data()
 x_train, x_val, y_train, y_val = train_test_split(
@@ -73,7 +76,6 @@ x_train = x_train.reshape(x_train.shape[0], rows, cols, channels)
 x_test = x_test.reshape(x_test.shape[0], rows, cols, channels)
 x_val = x_val.reshape(x_val.shape[0],rows,cols,channels)
 
-input_shape = (rows, cols, channels)
 
 x_train = x_train.astype('float32')
 x_test = x_test.astype('float32')
