@@ -151,7 +151,10 @@ class cifar100tree:
 		model = Model(inputs=inp,outputs=conv13)
 		model.compile(self.optimizer)
 
-		return inp,dense1,model
+		pdb.set_trace()
+		# model.summary()
+
+		return inp,conv13,model
 
 	def build_vgg_model(self,inp,base_model):
 		dense2_d = Dense(self.num_classes)
@@ -344,9 +347,10 @@ class cifar100tree:
 			self.model_dict['root'].save_weights('weights/cifar100tree_root.h5')
 			# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
 			print("Batch:{0}/{0}".format(num_batches))
-			print("Epoch: {0}/{0}\taccuracy: {1}".format(epoch+1,self.eval(self.val_x_batches,self.val_y_batches)))
+			print("Epoch: {0}/{1}\taccuracy: {2}".format(epoch+1,epochs,self.eval(self.val_x_batches,self.val_y_batches)))
 
 
+	def eval_on_root(self,x_batches,y_batches):
 
 
 
