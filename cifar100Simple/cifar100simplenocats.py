@@ -24,7 +24,7 @@ input_shape = (rows, cols, channels)
 
 inp = Input(shape=input_shape)
 
-conv1_h = Conv2D(32,(2,2),padding='same',input_shape=self.x_shape)
+conv1_h = Conv2D(32,(2,2),padding='same',input_shape=input_shape)
 conv1_a = BatchNormalization()
 conv1_b = Activation('relu')
 conv1_c = Dropout(0.3)
