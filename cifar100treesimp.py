@@ -221,9 +221,9 @@ class cifar100tree:
 				else:
 					i -= 1
 
-			# pdb.set_trace()
-			for model in self.model_dict:
-				self.model_dict[model].save_weights('weights/cifar100tree_{}.h5'.format(model))
+			if epoch%30==0:
+				for model in self.model_dict:
+					self.model_dict[model].save_weights('weights/cifar100treesimp_{}.h5'.format(model))
 			# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
 			print("Batch:{0}/{0}".format(num_batches))
 			print("Epoch: {0}/{0}\taccuracy: {1}".format(epoch+1,self.eval(self.val_x_batches,self.val_y_batches)))
