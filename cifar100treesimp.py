@@ -75,12 +75,13 @@ class cifar100tree:
 		conv3_e = BatchNormalization()
 		conv3_f = Activation('relu')
 		conv3_g = MaxPooling2D(pool_size=(2,2),strides=2)
+		conv3_i = Flatten()
 
-		conv3 = conv3_g(conv3_f(conv3_e(conv3_d(conv3_c(conv3_b(conv3_a(conv3_h(conv2))))))))
+		conv3 = conv3_i(conv3_g(conv3_f(conv3_e(conv3_d(conv3_c(conv3_b(conv3_a(conv3_h(conv2)))))))))
 
-		flat = Flatten(conv3)
+		#flat = Flatten(conv3)
 
-		model = Model(inputs=inp,outputs=flat)
+		model = Model(inputs=inp,outputs=conv3)
 		model.compile(self.optimizer)
 
 		return inp,flat,model
