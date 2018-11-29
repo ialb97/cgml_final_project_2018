@@ -12,7 +12,7 @@ from keras.layers.core import Lambda
 from keras import backend as K
 from keras import regularizers
 import sys
-sys.path.append('..')
+sys.path.append("..")
 import createTree
 import random
 import pdb
