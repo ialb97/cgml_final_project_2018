@@ -11,6 +11,7 @@ from keras.utils import to_categorical
 from keras.layers.core import Lambda
 from keras import backend as K
 from keras import regularizers
+from sklearn.model_selection import train_test_split
 import sys
 sys.path.append("..")
 import createTree
