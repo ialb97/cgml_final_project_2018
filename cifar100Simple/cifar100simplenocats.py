@@ -21,6 +21,7 @@ import pdb
 rows, cols,channels = 32,32,3
 
 input_shape = (rows, cols, channels)
+NUM_CLASSES = 100
 
 
 inp = Input(shape=input_shape)
@@ -59,11 +60,19 @@ conv3_i = Flatten()
 
 conv3 = conv3_i(conv3_g(conv3_f(conv3_e(conv3_d(conv3_c(conv3_b(conv3_a(conv3_h(conv2)))))))))
 
-model = Model(inputs=inp,outputs=conv3)
+output_a = Dense(NUM_CLASSES)
+output_b = Activation('softmax')
+
+output = output_b(output_a(conv3))
+
+
+
+
+model = Model(inputs=inp,outputs=output)
 model.compile(loss=keras.losses.categorical_crossentropy,optimizer=keras.optimizers.Adam(lr=.001), metrics = ['accuracy'])
 
 BATCH_SIZE = 32
-NUM_CLASSES = 100
+
 EPOCHS = 200
 
 
