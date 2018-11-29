@@ -18,7 +18,7 @@ import pdb
 
 
 class cifar100tree:
-	def __init__(self,weights=None,learning_rate=.01):
+	def __init__(self,weights=None,learning_rate=.001):
 		self.batch_size = 32
 		self.num_classes = 100
 		self.weight_decay = 0.0005
@@ -148,10 +148,10 @@ class cifar100tree:
 
 		dense1 = dense1_do(dense1_b(dense1_a(dense1_d(conv13))))
 
-		model = Model(inputs=inp,outputs=conv13)
+		model = Model(inputs=inp,outputs=dense1)
 		model.compile(self.optimizer)
 
-		return inp,conv13,model
+		return inp,dense1,model
 
 	def build_vgg_model(self,inp,base_model):
 		dense2_d = Dense(self.num_classes)
