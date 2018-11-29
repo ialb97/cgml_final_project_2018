@@ -151,9 +151,6 @@ class cifar100tree:
 		model = Model(inputs=inp,outputs=conv13)
 		model.compile(self.optimizer)
 
-		pdb.set_trace()
-		# model.summary()
-
 		return inp,conv13,model
 
 	def build_vgg_model(self,inp,base_model):
