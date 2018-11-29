@@ -29,8 +29,8 @@ class cifar100tree:
 
 		self.inputs, self.base_model, self.cache_model = self.build_base_model()
 		self.vgg_model = self.build_vgg_model(self.inputs,self.base_model)
-		#if (weights):
-		#	self.vgg_model.load_weights(weights)
+		if (weights):
+			self.vgg_model.load_weights(weights)
 
 		self.tree,self.x_batches,self.y_batches,self.val_x_batches,self.val_y_batches = createTree.createTree()
 		self.get_root_mapping()
