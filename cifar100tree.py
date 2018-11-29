@@ -344,10 +344,19 @@ class cifar100tree:
 			self.model_dict['root'].save_weights('weights/cifar100tree_root.h5')
 			# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
 			print("Batch:{0}/{0}".format(num_batches))
-			print("Epoch: {0}/{1}\taccuracy: {2}".format(epoch+1,epochs,self.eval(self.val_x_batches,self.val_y_batches)))
+			print("Epoch: {0}/{1}\taccuracy: {2}".format(epoch+1,epochs,self.eval_on_root(self.val_x_batches,self.val_y_batches)))
 
 
-	# def eval_on_root(self,x_batches,y_batches):
+	def eval_on_root(self,x_batches,y_batches):
+		correct = 0
+	
+		cached_output = self.cache_model.predict_on_batch(x_batches['root'])
+		
+		coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output),axis=1)
+		
+		correct = np.where(np.array([self.root_mapping[index] for index in coarse_result])==y_batches['root'])
+				
+		return correct/y_batches['root'].shape[0]
 
 
 
