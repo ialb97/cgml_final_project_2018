@@ -339,7 +339,7 @@ class cifar100tree:
             height_shift_range=0.1,  # randomly shift images vertically (fraction of total height)
             horizontal_flip=True,  # randomly flip images
             vertical_flip=False)  # randomly flip images
-		pdb.set_trace()
+		# pdb.set_trace()
 		self.model_dict['root'].fit_generator(datagen.flow(self.x_batches['root'],self.y_batches['root'],batch_size=self.batch_size),
 												steps_per_epoch=len(self.y_batches['root'])/32,epochs=epochs)
 		# pdb.set_trace()
