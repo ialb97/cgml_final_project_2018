@@ -238,18 +238,21 @@ class cifar100tree:
 		reverse_mapping = {}
 		new_batches = {}
 		for key in labels:
-			new_batches[key] = []
-			mapping[key] = {}
-			reverse_mapping[key] = []
-			i=0
-			for entry in labels[key]:
-				val = entry[0]
-				if (val not in mapping[key].keys()):
-					mapping[key][val]=i
-					reverse_mapping[key] += [val]
-					i+=1
-				new_batches[key] += [mapping[key][val]]
-			new_batches[key] = to_categorical(new_batches[key],i)
+			if key == 'root':
+				new_batches[key] = to_categorical(new_batches[key])
+			else:
+				new_batches[key] = []
+				mapping[key] = {}
+				reverse_mapping[key] = []
+				i=0
+				for entry in labels[key]:
+					val = entry[0]
+					if (val not in mapping[key].keys()):
+						mapping[key][val]=i
+						reverse_mapping[key] += [val]
+						i+=1
+					new_batches[key] += [mapping[key][val]]
+				new_batches[key] = to_categorical(new_batches[key],i)
 		# pdb.set_trace()
 		return new_batches, mapping, reverse_mapping
 
