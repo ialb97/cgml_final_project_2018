@@ -367,7 +367,7 @@ class cifar100tree:
 		coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output),axis=1)
 		
 		correct = np.where(coarse_result==y_batches['root'])[0].size
-
+		pdb.set_trace()
 		return correct/y_batches['root'].shape[0]
 
 
