@@ -18,7 +18,7 @@ import pdb
 
 
 class cifar100tree:
-	def __init__(self,weights=None,learning_rate=.00001):
+	def __init__(self,weights=None,load_weights=False,learning_rate=.00001):
 		self.batch_size = 32
 		self.num_classes = 100
 		self.weight_decay = 0.0005
@@ -37,6 +37,12 @@ class cifar100tree:
 		self.y_batches,self.mapping,self.reverse_mapping = self.one_hot(self.y_batches)
 		self.cache_input = Input(shape=[512])
 		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
+
+		if load_weights:
+			for model in self.model_dict:
+				self.model_dict[model].load_weights('weights/cifar100tree_{}.h5'.format(model))
+
+
 		print("Initialized\tsuper-category accuracy: {}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches)))
 		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
 		self.fit_on_root(1)
@@ -373,7 +379,7 @@ if __name__ == '__main__':
 	y_train = keras.utils.to_categorical(y_train, 100)
 	y_test = keras.utils.to_categorical(y_test, 100)
 
-	model = cifar100tree(weights="weights/cifar100vgg.h5")
+	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=True)
 
 	# predicted_x = model.predict(x_test)
 	# residuals = (np.argmax(predicted_x,1)!=np.argmax(y_test,1))
