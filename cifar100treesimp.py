@@ -82,7 +82,7 @@ class cifar100tree:
 		#flat = Flatten(conv3)
 
 		model = Model(inputs=inp,outputs=conv3)
-		model.compile(loss=keras.losses.categorical_crossentropy,optimzer=self.optimizer)
+		model.compile(loss=keras.losses.categorical_crossentropy,optimizer=self.optimizer)
 
 		return inp,flat,model
 
