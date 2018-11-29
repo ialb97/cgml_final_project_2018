@@ -239,7 +239,7 @@ class cifar100tree:
 		new_batches = {}
 		for key in labels:
 			if key == 'root':
-				new_batches[key] = to_categorical(new_batches[key])
+				new_batches[key] = to_categorical(labels[key])
 			else:
 				new_batches[key] = []
 				mapping[key] = {}
