@@ -18,10 +18,10 @@ import pdb
 
 
 class cifar100tree:
-	def __init__(self,weights=None,learning_rate=.001):
+	def __init__(self,weights=None,learning_rate=.01):
 		self.batch_size = 32
 		self.num_classes = 100
-		self.weight_decay = 0
+		self.weight_decay = 0.0005
 		self.x_shape = [32,32,3]
 
 		self.learning_rate = learning_rate
@@ -335,16 +335,20 @@ class cifar100tree:
 			batches = datagen.flow(self.x_batches['root'],self.y_batches['root'],batch_size=self.batch_size)
 			num_batches = len(batches)
 			
-			for i in range(num_batches):
-				x_batch,y_batch = batches[i]
-				self.model_dict['root'].train_on_batch(x_batch,y_batch)
-				print("Batch:{}/{}".format(i,num_batches),end='\r')
+			# for i in range(num_batches):
+			# 	x_batch,y_batch = batches[i]
+			# 	self.model_dict['root'].train_on_batch(x_batch,y_batch)
+			# 	print("Batch:{}/{}".format(i,num_batches),end='\r')
+
+			self.model_dict['root'].fit_generator(batches)
 
 			# pdb.set_trace()
 			self.model_dict['root'].save_weights('weights/cifar100tree_root.h5')
 			# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
 			print("Batch:{0}/{0}".format(num_batches))
-			print("Epoch: {0}/{1}\taccuracy: {2}".format(epoch+1,epochs,self.eval_on_root(self.val_x_batches,self.val_y_batches)))
+			print("Epoch: {0}/{1}\tsuper-category accuracy: {2}\t accuracy".format(epoch+1,epochs,
+																					self.eval_on_root(self.val_x_batches,self.val_y_batches),
+																					self.eval(self.val_x_batches,self.val_y_batches)))
 
 
 	def eval_on_root(self,x_batches,y_batches):
