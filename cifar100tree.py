@@ -18,7 +18,7 @@ import pdb
 
 
 class cifar100tree:
-	def __init__(self,weights=None,learning_rate=.0001):
+	def __init__(self,weights=None,learning_rate=.00001):
 		self.batch_size = 32
 		self.num_classes = 100
 		self.weight_decay = 0.0005
@@ -348,7 +348,7 @@ class cifar100tree:
 		# 	self.model_dict['root'].save_weights('weights/cifar100tree_root.h5')
 		# 	# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
 		# 	print("Batch:{0}/{0}".format(num_batches))
-		print("super-category accuracy: {2}\t accuracy".format(self.eval_on_root(self.val_x_batches,self.val_y_batches),
+		print("super-category accuracy: {0}\t accuracy: {1}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches),
 																self.eval(self.val_x_batches,self.val_y_batches)))
 
 
