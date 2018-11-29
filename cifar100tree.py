@@ -331,7 +331,7 @@ class cifar100tree:
             vertical_flip=False)  # randomly flip images
 		
 		self.model_dict['root'].fit_generator(datagen.flow(self.x_batches['root'],self.y_batches['root'],batch_size=self.batch_size),
-												steps_per_epoch=len(y_batches['root'])/32,epochs=epochs)
+												steps_per_epoch=len(self.y_batches['root'])/32,epochs=epochs)
 		# pdb.set_trace()
 		# for epoch in range(epochs):
 		# 	batches = datagen.flow(self.x_batches['root'],self.y_batches['root'],batch_size=self.batch_size)
