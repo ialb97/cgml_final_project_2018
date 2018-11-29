@@ -84,7 +84,7 @@ class cifar100tree:
 		model = Model(inputs=inp,outputs=conv3)
 		model.compile(loss=keras.losses.categorical_crossentropy,optimizer=self.optimizer)
 
-		return inp,conv3_i,model
+		return inp,conv3,model
 
 	def build_vgg_model(self,inp,base_model):
 		dense2_d = Dense(self.num_classes)
