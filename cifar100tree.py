@@ -330,25 +330,26 @@ class cifar100tree:
             horizontal_flip=True,  # randomly flip images
             vertical_flip=False)  # randomly flip images
 		
+		self.model_dict['root'].fit_generator(batches,steps_per_epoch=len(y_batches['root'])/32,epochs=epochs)
 		# pdb.set_trace()
-		for epoch in range(epochs):
-			batches = datagen.flow(self.x_batches['root'],self.y_batches['root'],batch_size=self.batch_size)
-			num_batches = len(batches)
+		# for epoch in range(epochs):
+		# 	batches = datagen.flow(self.x_batches['root'],self.y_batches['root'],batch_size=self.batch_size)
+		# 	num_batches = len(batches)
 			
-			# for i in range(num_batches):
-			# 	x_batch,y_batch = batches[i]
-			# 	self.model_dict['root'].train_on_batch(x_batch,y_batch)
-			# 	print("Batch:{}/{}".format(i,num_batches),end='\r')
+		# 	# for i in range(num_batches):
+		# 	# 	x_batch,y_batch = batches[i]
+		# 	# 	self.model_dict['root'].train_on_batch(x_batch,y_batch)
+		# 	# 	print("Batch:{}/{}".format(i,num_batches),end='\r')
 
-			self.model_dict['root'].fit_generator(batches)
 
-			# pdb.set_trace()
-			self.model_dict['root'].save_weights('weights/cifar100tree_root.h5')
-			# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
-			print("Batch:{0}/{0}".format(num_batches))
-			print("Epoch: {0}/{1}\tsuper-category accuracy: {2}\t accuracy".format(epoch+1,epochs,
-																					self.eval_on_root(self.val_x_batches,self.val_y_batches),
-																					self.eval(self.val_x_batches,self.val_y_batches)))
+
+		# 	# pdb.set_trace()
+		# 	self.model_dict['root'].save_weights('weights/cifar100tree_root.h5')
+		# 	# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
+		# 	print("Batch:{0}/{0}".format(num_batches))
+		# 	print("Epoch: {0}/{1}\tsuper-category accuracy: {2}\t accuracy".format(epoch+1,epochs,
+		# 																			self.eval_on_root(self.val_x_batches,self.val_y_batches),
+		# 																			self.eval(self.val_x_batches,self.val_y_batches)))
 
 
 	def eval_on_root(self,x_batches,y_batches):
