@@ -293,7 +293,7 @@ class cifar100tree:
 				self.model_dict[model].save_weights('weights/cifar100tree_{}.h5'.format(model))
 			# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
 			print("Batch:{0}/{0}".format(num_batches))
-			print("Epoch: {}/10\taccuracy: {}".format(epoch+1,self.eval(self.val_x_batches,self.val_y_batches)))
+			print("Epoch: {0}/{0}\taccuracy: {}".format(epoch+1,self.eval(self.val_x_batches,self.val_y_batches)))
 
 	def get_root_mapping(self):
 		self.root_mapping = [0]*len(self.tree)
