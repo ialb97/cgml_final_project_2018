@@ -78,7 +78,7 @@ class cifar100tree:
 
 		conv3 = conv3_g(conv3_f(conv3_e(conv3_d(conv3_c(conv3_b(conv3_a(conv3_h(conv2))))))))
 
-		flat = Flatten(conv3)
+		#flat = Flatten(conv3)
 
 		model = Model(inputs=inp,outputs=flat)
 		model.compile(self.optimizer)
