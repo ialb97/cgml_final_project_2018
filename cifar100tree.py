@@ -350,7 +350,7 @@ class cifar100tree:
 			print("Epoch: {0}/{1}\taccuracy: {2}".format(epoch+1,epochs,self.eval(self.val_x_batches,self.val_y_batches)))
 
 
-	def eval_on_root(self,x_batches,y_batches):
+	# def eval_on_root(self,x_batches,y_batches):
 
 
 
