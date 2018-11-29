@@ -3,6 +3,7 @@ import pickle
 import numpy
 from keras.datasets import cifar100
 from keras.utils import to_categorical
+import pdb
 
 def createTree(file='meta'):
 	ftr = open(file,'rb')
