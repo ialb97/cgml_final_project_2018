@@ -21,7 +21,7 @@ class cifar100tree:
 	def __init__(self,weights=None,load_weights=False,learning_rate=.000001):
 		self.batch_size = 32
 		self.num_classes = 100
-		self.weight_decay = 0.0005
+		self.weight_decay = 0.0001
 		self.x_shape = [32,32,3]
 
 		self.learning_rate = learning_rate
@@ -45,7 +45,7 @@ class cifar100tree:
 
 		print("Initialized\tsuper-category accuracy: {}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches)))
 		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
-		self.fit_on_root(1)
+		self.fit_on_root(10)
 		self.fit(1000)
 		
 	def build_base_model(self):
