@@ -336,8 +336,8 @@ class cifar100tree:
             height_shift_range=0.1,  # randomly shift images vertically (fraction of total height)
             horizontal_flip=True,  # randomly flip images
             vertical_flip=False)  # randomly flip images
-		
-		self.model_dict['root'].fit_generator(datagen.flow(self.x_batches['root'],to_categorical(self.y_batches['root']),batch_size=self.batch_size),
+		pdb.set_trace()
+		self.model_dict['root'].fit_generator(datagen.flow(self.x_batches['root'],self.y_batches['root'],batch_size=self.batch_size),
 												steps_per_epoch=len(self.y_batches['root'])/32,epochs=epochs)
 		# pdb.set_trace()
 		# for epoch in range(epochs):
@@ -367,7 +367,7 @@ class cifar100tree:
 		coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output),axis=1)
 		
 		correct = np.where(coarse_result==y_batches['root'])[0].size
-		pdb.set_trace()
+		# pdb.set_trace()
 		return correct/y_batches['root'].shape[0]
 
 
