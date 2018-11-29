@@ -18,7 +18,7 @@ import pdb
 
 
 class cifar100tree:
-	def __init__(self,weights=None,learning_rate=.001):
+	def __init__(self,weights=None,learning_rate=.0001):
 		self.batch_size = 32
 		self.num_classes = 100
 		self.weight_decay = 0.0005
