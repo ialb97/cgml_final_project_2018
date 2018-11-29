@@ -18,7 +18,7 @@ import pdb
 
 
 class cifar100tree:
-	def __init__(self,weights=None,load_weights=False,learning_rate=.0001):
+	def __init__(self,weights=None,load_weights=False,learning_rate=.00001):
 		self.batch_size = 32
 		self.num_classes = 100
 		self.weight_decay = 0.0001
@@ -302,7 +302,7 @@ class cifar100tree:
 				self.model_dict[model].save_weights('weights/cifar100tree_{}.h5'.format(model))
 			# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
 			print("Batch:{0}/{0}".format(num_batches))
-			print("Epoch: {0}/{1}\tsuper-category accuracy: {2}\t accuracy: {3}".format(epoch+1,epochsself.eval_on_root(self.val_x_batches,self.val_y_batches),
+			print("Epoch: {0}/{1}\tsuper-category accuracy: {2}\t accuracy: {3}".format(epoch+1,epochs,self.eval_on_root(self.val_x_batches,self.val_y_batches),
 																self.eval(self.val_x_batches,self.val_y_batches)))
 
 	def get_root_mapping(self):
