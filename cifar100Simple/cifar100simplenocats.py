@@ -105,6 +105,7 @@ datagen.fit(x_train)
 
 model.fit_generator(datagen.flow(x_train, y_train,batch_size=BATCH_SIZE),
           epochs=EPOCHS,
+          steps_per_epoch=len(x_train)/BATCH_SIZE,
           verbose=1,
           validation_data=(x_val, y_val))
 
