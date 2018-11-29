@@ -39,6 +39,7 @@ class cifar100tree:
 		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
 		
 		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
+		self.fit_on_root(1000)
 		self.fit(1000)
 		
 	def build_base_model(self):
@@ -314,16 +315,36 @@ class cifar100tree:
 				
 		return correct/y_batches['root'].shape[0]
 
-	def eval_on_batch(self,batches):
-		# returns accuracy metric for batch
-		# note: currently batch size needs to be one
-		# TODO: make it not need to be 1
 
-		correct = 0
-		for x,y in batches:
-			if self.eval(x,y):
-				correct += 1
-		return correct/len(x_batch)
+	def fit_on_root(self,epochs):
+		batch_iters = {}
+		datagen = ImageDataGenerator(
+            featurewise_center=False,  # set input mean to 0 over the dataset
+            samplewise_center=False,  # set each sample mean to 0
+            featurewise_std_normalization=False,  # divide inputs by std of the dataset
+            samplewise_std_normalization=False,  # divide each input by its std
+            zca_whitening=False,  # apply ZCA whitening
+            rotation_range=15,  # randomly rotate images in the range (degrees, 0 to 180)
+            width_shift_range=0.1,  # randomly shift images horizontally (fraction of total width)
+            height_shift_range=0.1,  # randomly shift images vertically (fraction of total height)
+            horizontal_flip=True,  # randomly flip images
+            vertical_flip=False)  # randomly flip images
+		
+		# pdb.set_trace()
+		for epoch in range(epochs):
+			batches = datagen.flow(self.x_batches['root'],self.y_batches['root'],batch_size=self.batch_size)
+			num_batches = len(batches)
+			
+			for i in range(num_batches):
+				x_batch,y_batch = batches[i]
+				self.model_dict['root'].train_on_batch(x_batch,y_batch)
+				print("Batch:{}/{}".format(i,num_batches),end='\r')
+
+			# pdb.set_trace()
+			self.model_dict['root'].save_weights('weights/cifar100tree_root.h5')
+			# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
+			print("Batch:{0}/{0}".format(num_batches))
+			print("Epoch: {0}/{0}\taccuracy: {}".format(epoch+1,self.eval(self.val_x_batches,self.val_y_batches)))
 
 
 
