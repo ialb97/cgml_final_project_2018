@@ -21,7 +21,7 @@ class cifar100tree:
 	def __init__(self,weights=None,learning_rate=.001):
 		self.batch_size = 32
 		self.num_classes = 100
-		self.weight_decay = 0.0005
+		self.weight_decay = 0
 		self.x_shape = [32,32,3]
 
 		self.learning_rate = learning_rate
