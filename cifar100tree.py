@@ -388,10 +388,11 @@ if __name__ == '__main__':
 	
 	x_test = x_test/255
 
-	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=True,save_acc="metrics/accuracy.csv",train=True)
+	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=True,save_acc="metrics/accuracy.csv",train=False)
 
 	predict_acc = model.predict(x_test,y_test)
-	print(predict_acc)
+	val_acc = model.predict(x_train[45000:],y_train[45000:])
+	print(val_acc,predict_acc)
 
 	# predicted_x = model.predict(x_test)
 	# residuals = (np.argmax(predicted_x,1)!=np.argmax(y_test,1))
