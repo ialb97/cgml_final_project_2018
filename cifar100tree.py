@@ -388,7 +388,7 @@ if __name__ == '__main__':
 	
 	x_test = x_test/255
 
-	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=True,save_acc="metrics/accuracy.csv",train=False)
+	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=True,save_acc="metrics/accuracy.csv",train=True)
 
 	predict_acc = model.predict(x_test,y_test)
 	pdb.set_trace()
