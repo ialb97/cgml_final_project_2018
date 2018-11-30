@@ -390,6 +390,7 @@ if __name__ == '__main__':
 
 	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=True,save_acc="metrics/accuracy.csv",train=False)
 
+	pdb.set_trace()
 	predict_acc = model.predict(x_test,y_test)
 	val_acc = model.predict(x_train[45000:],y_train[45000:])
 	print(val_acc,predict_acc)
