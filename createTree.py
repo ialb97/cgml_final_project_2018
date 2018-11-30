@@ -24,10 +24,10 @@ def createTree(file='meta'):
 	x2_val = x2[::10]
 	y_val_fine = y_train_fine[::10]
 	y_val_coarse = y_train_coarse[::10]
-	x1 = [x1[i] for i in range(len(x1)) if i is not in range(len(x1))[::10]]
-	x2 = [x2[i] for i in range(len(x2)) if i is not in range(len(x2))[::10]]
-	y_train_fine = [y_train_fine[i] for i in range(len(y_train_fine)) if i is not in range(len(y_train_fine))[::10]]
-	y_train_coarse = [y_train_coarse[i] for i in range(len(y_train_coarse)) if i is not in range(len(y_train_coarse))[::10]]
+	x1 = [x1[i] for i in range(len(x1)) if i not in range(len(x1))[::10]]
+	x2 = [x2[i] for i in range(len(x2)) if i not in range(len(x2))[::10]]
+	y_train_fine = [y_train_fine[i] for i in range(len(y_train_fine)) if i not in range(len(y_train_fine))[::10]]
+	y_train_coarse = [y_train_coarse[i] for i in range(len(y_train_coarse)) if i not in range(len(y_train_coarse))[::10]]
 
 	for i in range(y_train_fine.size):
 		coarse_label = labels[b'coarse_label_names'][y_train_coarse[i][0]].decode('utf-8')
