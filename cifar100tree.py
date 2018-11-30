@@ -38,7 +38,7 @@ class cifar100tree:
 		self.cache_input = Input(shape=[512])
 		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
 
-		if save_acc:
+		if save_acc:	
 			self.acc_file = open(save_acc,'w+')
 		else:
 			self.acc_file = None
@@ -390,7 +390,7 @@ if __name__ == '__main__':
 
 	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=False,save_acc="metrics/accuracy.csv",train=False)
 
-	print(cifar100tree.predict(x_test,y_test))
+	print(model.predict(x_test,y_test))
 
 	# predicted_x = model.predict(x_test)
 	# residuals = (np.argmax(predicted_x,1)!=np.argmax(y_test,1))
