@@ -41,7 +41,7 @@ class cifar100tree:
 		if save_acc:
 			self.acc_file = open(save_acc,'w+')
 		else:
-			self.acc_file = None`
+			self.acc_file = None
 
 		if load_weights:
 			for model in self.model_dict:
