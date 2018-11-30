@@ -18,7 +18,7 @@ import pdb
 
 
 class cifar100tree:
-	def __init__(self,weights=None,load_weights=False,learning_rate=.00001,save_acc=None):
+	def __init__(self,weights=None,load_weights=False,learning_rate=.00001,save_acc=None,train=True):
 		self.batch_size = 32
 		self.num_classes = 100
 		self.weight_decay = 0.0001
@@ -50,8 +50,8 @@ class cifar100tree:
 
 		print("Initialized\tsuper-category accuracy: {}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches)))
 		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
-		# self.fit_on_root(1)
-		self.fit(1000)
+		if train:
+			self.fit(1000)
 		
 	def build_base_model(self):
 		inp = Input(shape=self.x_shape)
@@ -333,6 +333,18 @@ class cifar100tree:
 				
 		return correct/y_batches['root'].shape[0]
 
+	def predict(self,images,labels):
+		correct = 0
+		for i in len(images):
+			cached_output = self.cache_model.predict_on_batch(images[i])
+
+			coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
+			fine_result = np.argmax(self.eval_model_dict[self.root_mapping[coarse_result]].predict_on_batch(cached_output))
+
+			result = self.reverse_mapping[self.root_mapping[coarse_result]][fine_result]
+			if result == labels[i][0]:
+				correct += 1
+		return correct/len(images)
 
 	def fit_on_root(self,epochs):
 		batch_iters = {}
@@ -373,9 +385,12 @@ if __name__ == '__main__':
 	x_test = x_test.astype('float32')
 
 	y_train = keras.utils.to_categorical(y_train, 100)
-	y_test = keras.utils.to_categorical(y_test, 100)
+	
+	x_test = x_test/255
 
-	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=False,save_acc="metrics/accuracy.csv")
+	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=False,save_acc="metrics/accuracy.csv",train=False)
+
+	print(cifar100tree.predict(x_test,y_test))
 
 	# predicted_x = model.predict(x_test)
 	# residuals = (np.argmax(predicted_x,1)!=np.argmax(y_test,1))
