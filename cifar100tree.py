@@ -52,8 +52,6 @@ class cifar100tree:
 		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
 		if train:
 			self.fit(1000)
-		else:
-			self.fit(1)
 		
 	def build_base_model(self):
 		inp = Input(shape=self.x_shape)
@@ -390,9 +388,10 @@ if __name__ == '__main__':
 	
 	x_test = x_test/255
 
-	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=False,save_acc="metrics/accuracy.csv",train=False)
+	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=True,save_acc="metrics/accuracy.csv",train=False)
 
-	print(model.predict(x_test,y_test))
+	predict_acc = model.predict(x_test,y_test)
+	pdb.set_trace()
 
 	# predicted_x = model.predict(x_test)
 	# residuals = (np.argmax(predicted_x,1)!=np.argmax(y_test,1))
