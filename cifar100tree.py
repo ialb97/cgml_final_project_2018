@@ -52,6 +52,8 @@ class cifar100tree:
 		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
 		if train:
 			self.fit(1000)
+		else:
+			self.fit(1)
 		
 	def build_base_model(self):
 		inp = Input(shape=self.x_shape)
