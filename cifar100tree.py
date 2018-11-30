@@ -384,8 +384,7 @@ if __name__ == '__main__':
 	x_train = x_train.astype('float32')
 	x_test = x_test.astype('float32')
 
-	y_train = keras.utils.to_categorical(y_train, 100)
-	
+	x_train = x_train/255
 	x_test = x_test/255
 
 	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=True,save_acc="metrics/accuracy.csv",train=False)
