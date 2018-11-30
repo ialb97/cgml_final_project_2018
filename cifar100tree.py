@@ -391,7 +391,7 @@ if __name__ == '__main__':
 
 	pdb.set_trace()
 	predict_acc = model.predict(x_test,y_test)
-	val_acc = model.predict(x_train[45000:],y_train[45000:])
+	val_acc = model.predict(x_train[::10],y_train[::10])
 	print(val_acc,predict_acc)
 
 	# predicted_x = model.predict(x_test)
