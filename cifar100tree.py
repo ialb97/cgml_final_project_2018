@@ -336,7 +336,7 @@ class cifar100tree:
 	def predict(self,images,labels):
 		correct = 0
 		for i in range(len(images)):
-			cached_output = self.cache_model.predict_on_batch(images[i])
+			cached_output = self.cache_model.predict_on_batch(np.expand_dims(images[i],axis=0))
 
 			coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
 			fine_result = np.argmax(self.eval_model_dict[self.root_mapping[coarse_result]].predict_on_batch(cached_output))
