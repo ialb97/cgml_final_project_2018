@@ -18,7 +18,7 @@ import pdb
 
 
 class cifar100tree:
-	def __init__(self,weights=None,load_weights=False,learning_rate=.00001):
+	def __init__(self,weights=None,load_weights=False,learning_rate=.00001,save_acc=None):
 		self.batch_size = 32
 		self.num_classes = 100
 		self.weight_decay = 0.0001
@@ -29,7 +29,7 @@ class cifar100tree:
 
 		self.inputs, self.base_model, self.cache_model = self.build_base_model()
 		self.vgg_model = self.build_vgg_model(self.inputs,self.base_model)
-		if (weights):
+		if (weights and not load_weights):
 			self.vgg_model.load_weights(weights)
 
 		self.tree,self.x_batches,self.y_batches,self.val_x_batches,self.val_y_batches = createTree.createTree()
@@ -37,6 +37,11 @@ class cifar100tree:
 		self.y_batches,self.mapping,self.reverse_mapping = self.one_hot(self.y_batches)
 		self.cache_input = Input(shape=[512])
 		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
+
+		if save_acc:
+			self.acc_file = open(save_acc,'w+')
+		else:
+			self.acc_file = None`
 
 		if load_weights:
 			for model in self.model_dict:
@@ -305,6 +310,9 @@ class cifar100tree:
 			print("Epoch: {0}/{1}\tsuper-category accuracy: {2}\t accuracy: {3}".format(epoch+1,epochs,self.eval_on_root(self.val_x_batches,self.val_y_batches),
 																self.eval(self.val_x_batches,self.val_y_batches)))
 
+			self.acc_file.write("{},{}",self.eval_on_root(self.val_x_batches,self.val_y_batches),
+															self.eval(self.val_x_batches,self.val_y_batches))
+
 	def get_root_mapping(self):
 		self.root_mapping = [0]*len(self.tree)
 		for key in self.tree:
@@ -342,22 +350,6 @@ class cifar100tree:
 		# pdb.set_trace()
 		self.model_dict['root'].fit_generator(datagen.flow(self.x_batches['root'],self.y_batches['root'],batch_size=self.batch_size),
 												steps_per_epoch=len(self.y_batches['root'])/32,epochs=epochs)
-		# pdb.set_trace()
-		# for epoch in range(epochs):
-		# 	batches = datagen.flow(self.x_batches['root'],self.y_batches['root'],batch_size=self.batch_size)
-		# 	num_batches = len(batches)
-			
-		# 	# for i in range(num_batches):
-		# 	# 	x_batch,y_batch = batches[i]
-		# 	# 	self.model_dict['root'].train_on_batch(x_batch,y_batch)
-		# 	# 	print("Batch:{}/{}".format(i,num_batches),end='\r')
-
-
-
-		# 	# pdb.set_trace()
-		# 	self.model_dict['root'].save_weights('weights/cifar100tree_root.h5')
-		# 	# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
-		# 	print("Batch:{0}/{0}".format(num_batches))
 		print("super-category accuracy: {0}\t accuracy: {1}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches),
 																self.eval(self.val_x_batches,self.val_y_batches)))
 
@@ -383,7 +375,7 @@ if __name__ == '__main__':
 	y_train = keras.utils.to_categorical(y_train, 100)
 	y_test = keras.utils.to_categorical(y_test, 100)
 
-	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=True)
+	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=False,save_acc="metrics/accuracy.csv")
 
 	# predicted_x = model.predict(x_test)
 	# residuals = (np.argmax(predicted_x,1)!=np.argmax(y_test,1))
