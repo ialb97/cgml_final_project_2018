@@ -391,7 +391,7 @@ if __name__ == '__main__':
 	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=True,save_acc="metrics/accuracy.csv",train=True)
 
 	predict_acc = model.predict(x_test,y_test)
-	pdb.set_trace()
+	print(predict_acc)
 
 	# predicted_x = model.predict(x_test)
 	# residuals = (np.argmax(predicted_x,1)!=np.argmax(y_test,1))
