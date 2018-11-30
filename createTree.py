@@ -29,7 +29,7 @@ def createTree(file='meta'):
 	y_train_fine = [y_train_fine[i] for i in range(len(y_train_fine)) if i not in range(len(y_train_fine))[::10]]
 	y_train_coarse = [y_train_coarse[i] for i in range(len(y_train_coarse)) if i not in range(len(y_train_coarse))[::10]]
 
-	for i in range(y_train_fine.size):
+	for i in range(len(y_train_fine)):
 		coarse_label = labels[b'coarse_label_names'][y_train_coarse[i][0]].decode('utf-8')
 		fine_label = labels[b'fine_label_names'][y_train_fine[i][0]].decode('utf-8')
 		if coarse_label not in output.keys():
@@ -45,7 +45,7 @@ def createTree(file='meta'):
 		batches_y['root'] += [y_train_coarse[i]]
 
 
-	for i in range(y_val_fine.size):
+	for i in range(len(y_val_fine)):
 		coarse_label = labels[b'coarse_label_names'][y_val_coarse[i][0]].decode('utf-8')
 		fine_label = labels[b'fine_label_names'][y_val_fine[i][0]].decode('utf-8')
 
