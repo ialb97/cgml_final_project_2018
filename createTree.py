@@ -20,7 +20,7 @@ def createTree(file='meta'):
 
 	x1 = x1/255
 	x2 = x2/255
-	x1_val = x1[::10]
+	x1_val = x1
 	x2_val = x2[::10]
 	y_val_fine = y_train_fine[::10]
 	y_val_coarse = y_train_coarse[::10]
