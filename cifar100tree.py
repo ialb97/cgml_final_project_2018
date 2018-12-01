@@ -352,7 +352,8 @@ class cifar100tree:
 			cached_output = self.cache_model.predict_on_batch(np.expand_dims(images[i],axis=0))
 
 			coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
-		
+			if i == 1000:
+				pdb.set_trace()
 			if coarse_result == labels[i][0]:
 				correct += 1
 		return correct/images.shape[0]
