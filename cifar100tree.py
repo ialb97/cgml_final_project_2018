@@ -397,6 +397,10 @@ if __name__ == '__main__':
 	x_train = x_train/255
 	x_test = x_test/255
 
+
+	xc_train = xc_train/255
+	xc_test = xc_test/255
+
 	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=True,save_acc="metrics/accuracy.csv",train=False)
 
 	test_acc = model.predict(x_test,y_test)
@@ -404,7 +408,7 @@ if __name__ == '__main__':
 	test_coarse_acc = model.predict_root(xc_test,yc_test)
 	val_coarse_acc = model.predict_root(xc_train[::10],yc_test[::10])
 
-	print("Val super-category acc: {}\tTest super-category acc: {}".format(val_coarse_acc,test_coarse_acc))
+	print("Val super-category acc: {}\tTest super-category acc: {}".format(val_coarse_acc,	test_coarse_acc))
 	print("Val acc: {}\tTest acc: {}".format(val_acc,test_acc))
 
 	# predicted_x = model.predict(x_test)
