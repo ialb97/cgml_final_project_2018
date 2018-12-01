@@ -4,6 +4,7 @@ import numpy
 from keras.datasets import cifar100
 from keras.utils import to_categorical
 import pdb
+from sklearn.model_selection import train_test_split
 
 def createTree(file='meta'):
 	ftr = open(file,'rb')
