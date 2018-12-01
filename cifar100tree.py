@@ -346,6 +346,17 @@ class cifar100tree:
 				correct += 1
 		return correct/len(images)
 
+	def predict_root(self,images,labels):
+		correct = 0
+		for i in range(len(images)):
+			cached_output = self.cache_model.predict_on_batch(np.expand_dims(images[i],axis=0))
+
+			coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
+
+			if coarse_result == labels[i][0]:
+				correct += 1
+		return correct/len(images)
+
 	def fit_on_root(self,epochs):
 		batch_iters = {}
 		datagen = ImageDataGenerator(
@@ -381,18 +392,19 @@ class cifar100tree:
 
 if __name__ == '__main__':
 	(x_train, y_train), (x_test, y_test) = cifar100.load_data()
-	x_train = x_train.astype('float32')
-	x_test = x_test.astype('float32')
+	_, (xc_test, yc_test) = cifar100.load_data(label_mode='coarse')
 
 	x_train = x_train/255
 	x_test = x_test/255
 
-	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=True,save_acc="metrics/accuracy.csv",train=True)
+	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=True,save_acc="metrics/accuracy.csv",train=False)
 
-	pdb.set_trace()
-	predict_acc = model.predict(x_test,y_test)
+	test_acc = model.predict(x_test,y_test)
 	val_acc = model.predict(x_train[::10],y_train[::10])
-	print(val_acc,predict_acc)
+	test_coarse_acc = model.predict_root(xc_test,yc_test)
+
+	print("Test super-category acc: {}".format(test_coarse_acc))
+	print("Val acc: {}\tTest acc: {}".format(val_acc,test_acc))
 
 	# predicted_x = model.predict(x_test)
 	# residuals = (np.argmax(predicted_x,1)!=np.argmax(y_test,1))
