@@ -335,7 +335,7 @@ class cifar100tree:
 
 	def predict(self,images,labels):
 		correct = 0
-		for i in range(len(images)):
+		for i in range(images.shape[0]):
 			cached_output = self.cache_model.predict_on_batch(np.expand_dims(images[i],axis=0))
 
 			coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
@@ -344,18 +344,18 @@ class cifar100tree:
 			result = self.reverse_mapping[self.root_mapping[coarse_result]][fine_result]
 			if result == labels[i][0]:
 				correct += 1
-		return correct/len(images)
+		return correct/images.shape[0]
 
 	def predict_root(self,images,labels):
 		correct = 0
-		for i in range(len(images)):
+		for i in range(images.shape[0]):
 			cached_output = self.cache_model.predict_on_batch(np.expand_dims(images[i],axis=0))
 
 			coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
-
+		
 			if coarse_result == labels[i][0]:
 				correct += 1
-		return correct/len(images)
+		return correct/images.shape[0]
 
 	def fit_on_root(self,epochs):
 		batch_iters = {}
@@ -400,7 +400,7 @@ if __name__ == '__main__':
 
 	xc_train = xc_train/255
 	xc_test = xc_test/255
-
+	pdb.set_trace()
 	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=True,save_acc="metrics/accuracy.csv",train=False)
 
 	test_acc = model.predict(x_test,y_test)
