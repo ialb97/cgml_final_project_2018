@@ -392,7 +392,7 @@ class cifar100tree:
 
 if __name__ == '__main__':
 	(x_train, y_train), (x_test, y_test) = cifar100.load_data()
-	_, (xc_test, yc_test) = cifar100.load_data(label_mode='coarse')
+	(xc_train,yc_train), (xc_test, yc_test) = cifar100.load_data(label_mode='coarse')
 
 	x_train = x_train/255
 	x_test = x_test/255
@@ -402,8 +402,9 @@ if __name__ == '__main__':
 	test_acc = model.predict(x_test,y_test)
 	val_acc = model.predict(x_train[::10],y_train[::10])
 	test_coarse_acc = model.predict_root(xc_test,yc_test)
+	val_coarse_acc = model.predict_root(xc_train[::10],yc_test[::10])
 
-	print("Test super-category acc: {}".format(test_coarse_acc))
+	print("Val super-category acc: {}\tTest super-category acc: {}".format(val_coarse_acc,test_coarse_acc))
 	print("Val acc: {}\tTest acc: {}".format(val_acc,test_acc))
 
 	# predicted_x = model.predict(x_test)
