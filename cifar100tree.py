@@ -352,7 +352,7 @@ class cifar100tree:
 			cached_output = self.cache_model.predict_on_batch(np.expand_dims(images[i],axis=0))
 
 			coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
-			
+
 			if coarse_result == labels[i][0]:
 				correct += 1
 		return correct/images.shape[0]
@@ -401,7 +401,7 @@ if __name__ == '__main__':
 	xc_train = xc_train/255
 	xc_test = xc_test/255
 	pdb.set_trace()
-	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=True,save_acc="metrics/accuracy.csv",train=False)
+	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=False,save_acc="metrics/accuracy.csv",train=True)
 
 	test_acc = model.predict(x_test,y_test)
 	val_acc = model.predict(x_train[::10],y_train[::10])
