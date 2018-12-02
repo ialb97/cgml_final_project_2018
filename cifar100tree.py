@@ -204,7 +204,7 @@ class cifar100tree:
 
 
 	def build_model(self,base_model,inputs,outputs):
-		dense2_d = Dense(outputs,kernel_regularizer=regularizers.l2(weight_decay))
+		dense2_d = Dense(outputs,kernel_regularizer=regularizers.l2(self.weight_decay))
 		dense2_a = Activation('softmax')
 
 		dense2 = dense2_a(dense2_d(base_model))
