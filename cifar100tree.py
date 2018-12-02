@@ -51,7 +51,7 @@ class cifar100tree:
 		print("Initialized\tsuper-category accuracy: {}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches)))
 		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
 		if train:
-			self.fit(10)
+			self.fit(20)
 		
 	def build_base_model(self):
 		inp = Input(shape=self.x_shape)
@@ -159,23 +159,16 @@ class cifar100tree:
 
 		dense1 = dense1_do(dense1_b(dense1_a(dense1_d(conv13))))
 
-		model = Model(inputs=inp,outputs=conv13)
+		model = Model(inputs=inp,outputs=dense1)
 		model.compile(self.optimizer)
 
-		return inp,conv13,model
+		return inp,dense1,model
 
 	def build_vgg_model(self,inp,base_model):
-		dense1_d = Dense(512,kernel_regularizer=regularizers.l2(self.weight_decay))
-		dense1_a = Activation('relu')
-		dense1_b = BatchNormalization()
-		dense1_do = Dropout(0.5)
-
-		dense1 = dense1_do(dense1_b(dense1_a(dense1_d(base_model))))
-
 		dense2_d = Dense(self.num_classes)
 		dense2_a = Activation('softmax')
 
-		dense2 = dense2_a(dense2_d(dense1))
+		dense2 = dense2_a(dense2_d(base_model))
 
 		model = Model(inputs=inp,outputs=dense2)
 		
@@ -211,19 +204,12 @@ class cifar100tree:
 
 
 	def build_model(self,base_model,inputs,outputs):
-		dense1_d = Dense(512,kernel_regularizer=regularizers.l2(self.weight_decay))
-		dense1_a = Activation('relu')
-		dense1_b = BatchNormalization()
-		dense1_do = Dropout(0.5)
-
-		dense1 = dense1_do(dense1_b(dense1_a(dense1_d(base_model))))
-
-		dense2_d = Dense(outputs)
+		dense2_d = Dense(outputs,kernel_regularizer=regularizers.l2(weight_decay))
 		dense2_a = Activation('softmax')
 
-		dense2 = dense2_a(dense2_d(dense1))
+		dense2 = dense2_a(dense2_d(base_model))
 		dense2_eval = dense2_a(dense2_d(self.cache_input))
-
+		# pdb.set_trace()
 		train_model = Model(inputs=inputs,outputs=dense2)
 		eval_model = Model(inputs=self.cache_input,outputs=dense2_eval)
 		return train_model,eval_model
