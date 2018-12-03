@@ -51,7 +51,7 @@ class cifar100tree:
 		print("Initialized\tsuper-category accuracy: {}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches)))
 		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
 		if train:
-			self.fit(100)
+			self.fit(10)
 		
 	def build_base_model(self):
 		inp = Input(shape=self.x_shape)
@@ -204,7 +204,7 @@ class cifar100tree:
 
 
 	def build_model(self,base_model,inputs,outputs):
-		dense2_d = Dense(outputs,kernel_regularizer=regularizers.l2(self.weight_decay))
+		dense2_d = Dense(outputs)
 		dense2_a = Activation('softmax')
 
 		dense2 = dense2_a(dense2_d(base_model))
