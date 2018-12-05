@@ -167,18 +167,21 @@ class cifar100tree:
 		reverse_mapping = {}
 		new_batches = {}
 		for key in labels:
-			new_batches[key] = []
-			mapping[key] = {}
-			reverse_mapping[key] = []
-			i=0
-			for entry in labels[key]:
-				val = entry[0]
-				if (val not in mapping[key].keys()):
-					mapping[key][val]=i
-					reverse_mapping[key] += [val]
-					i+=1
-				new_batches[key] += [mapping[key][val]]
-			new_batches[key] = to_categorical(new_batches[key],i)
+			if key == 'root':
+				new_batches[key] = to_categorical(labels[key])
+			else:
+				new_batches[key] = []
+				mapping[key] = {}
+				reverse_mapping[key] = []
+				i=0
+				for entry in labels[key]:
+					val = entry[0]
+					if (val not in mapping[key].keys()):
+						mapping[key][val]=i
+						reverse_mapping[key] += [val]
+						i+=1
+					new_batches[key] += [mapping[key][val]]
+				new_batches[key] = to_categorical(new_batches[key],i)
 		# pdb.set_trace()
 		return new_batches, mapping, reverse_mapping
 
@@ -223,12 +226,13 @@ class cifar100tree:
 				else:
 					i -= 1
 
-			if epoch%30==0:
-				for model in self.model_dict:
-					self.model_dict[model].save_weights('weights/cifar100treesimp_{}.h5'.format(model))
+			# pdb.set_trace()
+			for model in self.model_dict:
+				self.model_dict[model].save_weights('weights/cifar100tree_{}.h5'.format(model))
 			# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
 			print("Batch:{0}/{0}".format(num_batches))
-			print("Epoch: {0}/{0}\taccuracy: {1}".format(epoch+1,self.eval(self.val_x_batches,self.val_y_batches)))
+			print("Epoch: {0}/{1}\tsuper-category accuracy: {2}\t accuracy: {3}".format(epoch+1,epochs,self.eval_on_root(self.val_x_batches,self.val_y_batches),
+																self.eval(self.val_x_batches,self.val_y_batches)))
 
 	def get_root_mapping(self):
 		self.root_mapping = [0]*len(self.tree)
