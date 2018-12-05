@@ -31,8 +31,8 @@ class cifar100tree:
 
 		self.inputs, self.base_model, self.cache_model = self.build_base_model()
 		self.vgg_model = self.build_vgg_model(self.inputs,self.base_model)
-		#if (weights and not load_weights):
-			#self.vgg_model.load_weights(weights)
+		if (weights and not load_weights):
+			self.vgg_model.load_weights(weights)
 
 		self.tree,self.x_batches,self.y_batches,self.val_x_batches,self.val_y_batches = createTree.createTree()
 		self.get_root_mapping()
@@ -338,7 +338,7 @@ if __name__ == '__main__':
 	xc_train = xc_train/255
 	xc_test = xc_test/255
 
-	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=False,save_acc="metrics/accuracy.csv",train=True)
+	model = cifar100tree(weights="BURTA.h5",load_weights=True,save_acc="metrics/accuracy.csv",train=True)
 
 	test_acc = model.predict(x_test,y_test)
 	val_acc = model.predict(x_train[::10],y_train[::10])
