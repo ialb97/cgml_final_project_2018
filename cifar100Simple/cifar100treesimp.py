@@ -53,7 +53,8 @@ class cifar100tree:
 		print("Initialized\tsuper-category accuracy: {}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches)))
 		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
 		if train:
-			self.fit(100)
+			self.fit_on_root(100)
+			self.fit(200)
 		
 	def build_base_model(self):
 		inp = Input(shape=self.x_shape)
