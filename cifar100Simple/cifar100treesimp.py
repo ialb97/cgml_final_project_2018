@@ -54,48 +54,48 @@ class cifar100tree:
 			self.fit(100)
 		
 	def build_base_model(self):
-    inp = Input(shape=self.x_shape)
+		inp = Input(shape=self.x_shape)
 
-    conv1_h = Conv2D(32,(2,2),padding='same',input_shape=self.x_shape)
-    conv1_a = BatchNormalization()
-    conv1_b = Activation('relu')
-    conv1_c = Dropout(0.3)
-    conv1_d = Conv2D(32,(4,4),padding='same')
-    conv1_e = BatchNormalization()
-    conv1_f = Activation('relu')
-    conv1_g = MaxPooling2D(pool_size=(2,2),strides=2)
+		conv1_h = Conv2D(32,(2,2),padding='same',input_shape=self.x_shape)
+		conv1_a = BatchNormalization()
+		conv1_b = Activation('relu')
+		conv1_c = Dropout(0.3)
+		conv1_d = Conv2D(32,(4,4),padding='same')
+		conv1_e = BatchNormalization()
+		conv1_f = Activation('relu')
+		conv1_g = MaxPooling2D(pool_size=(2,2),strides=2)
 
-    conv1 = conv1_g(conv1_f(conv1_e(conv1_d(conv1_c(conv1_b(conv1_a(conv1_h(inp))))))))
+		conv1 = conv1_g(conv1_f(conv1_e(conv1_d(conv1_c(conv1_b(conv1_a(conv1_h(inp))))))))
 
-    conv2_h = Conv2D(64,(4,4),padding='same')
-    conv2_a = BatchNormalization()
-    conv2_b = Activation('relu')
-    conv2_c = Dropout(0.4)
-    conv2_d = Conv2D(64,(2,2),padding='same')
-    conv2_e = BatchNormalization()
-    conv2_f = Activation('relu')
-    conv2_g = MaxPooling2D(pool_size=(2,2),strides=2)
+		conv2_h = Conv2D(64,(4,4),padding='same')
+		conv2_a = BatchNormalization()
+		conv2_b = Activation('relu')
+		conv2_c = Dropout(0.4)
+		conv2_d = Conv2D(64,(2,2),padding='same')
+		conv2_e = BatchNormalization()
+		conv2_f = Activation('relu')
+		conv2_g = MaxPooling2D(pool_size=(2,2),strides=2)
 
-    conv2 = conv2_g(conv2_f(conv2_e(conv2_d(conv2_c(conv2_b(conv2_a(conv2_h(conv1))))))))
+		conv2 = conv2_g(conv2_f(conv2_e(conv2_d(conv2_c(conv2_b(conv2_a(conv2_h(conv1))))))))
 
-    conv3_h = Conv2D(128,(2,2),padding='same')
-    conv3_a = BatchNormalization()
-    conv3_b = Activation('relu')
-    conv3_c = Dropout(0.25)
-    conv3_d = Conv2D(128,(3,3),padding='same')
-    conv3_e = BatchNormalization()
-    conv3_f = Activation('relu')
-    conv3_g = MaxPooling2D(pool_size=(2,2),strides=2)
-    conv3_i = Flatten()
+		conv3_h = Conv2D(128,(2,2),padding='same')
+		conv3_a = BatchNormalization()
+		conv3_b = Activation('relu')
+		conv3_c = Dropout(0.25)
+		conv3_d = Conv2D(128,(3,3),padding='same')
+		conv3_e = BatchNormalization()
+		conv3_f = Activation('relu')
+		conv3_g = MaxPooling2D(pool_size=(2,2),strides=2)
+		conv3_i = Flatten()
 
-    conv3 = conv3_i(conv3_g(conv3_f(conv3_e(conv3_d(conv3_c(conv3_b(conv3_a(conv3_h(conv2)))))))))
+		conv3 = conv3_i(conv3_g(conv3_f(conv3_e(conv3_d(conv3_c(conv3_b(conv3_a(conv3_h(conv2)))))))))
 
-    #flat = Flatten(conv3)
+		#flat = Flatten(conv3)
 
-    model = Model(inputs=inp,outputs=conv3)
-    model.compile(loss=keras.losses.categorical_crossentropy,optimizer=self.optimizer)
+		model = Model(inputs=inp,outputs=conv3)
+		model.compile(loss=keras.losses.categorical_crossentropy,optimizer=self.optimizer)
 
-    return inp,conv3,model
+		return inp,conv3,model
 
 
 
