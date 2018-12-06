@@ -304,7 +304,7 @@ class cifar100tree:
 
 			# pdb.set_trace()
 			for model in self.model_dict:
-				self.model_dict[model].save_weights('weights/cifar100tree_{}.h5'.format(model))
+				self.model_dict[model].save_weights('weights/cifar100goodtree_{}.h5'.format(model))
 			# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
 			print("Batch:{0}/{0}".format(num_batches))
 			print("Epoch: {0}/{1}\tsuper-category accuracy: {2}\t accuracy: {3}".format(epoch+1,epochs,self.eval_on_root(self.val_x_batches,self.val_y_batches),
