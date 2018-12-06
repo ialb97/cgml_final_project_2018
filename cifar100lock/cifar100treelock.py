@@ -11,8 +11,6 @@ from keras.utils import to_categorical
 from keras.layers.core import Lambda
 from keras import backend as K
 from keras import regularizers
-import sys
-sys.path.append("..")
 import createTree
 import random
 import pdb
@@ -403,7 +401,7 @@ if __name__ == '__main__':
 	xc_train = xc_train/255
 	xc_test = xc_test/255
 
-	model = cifar100tree(weights="../weights/cifar100vgg.h5",load_weights=False,save_acc="metrics/accuracy.csv",train=True)
+	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=False,save_acc="metrics/accuracy.csv",train=True)
 
 	test_acc = model.predict(x_test,y_test)
 	val_acc = model.predict(x_train[::10],y_train[::10])
