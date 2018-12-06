@@ -11,6 +11,8 @@ from keras.utils import to_categorical
 from keras.layers.core import Lambda
 from keras import backend as K
 from keras import regularizers
+import sys
+sys.path.append("..")
 import createTree
 import random
 import pdb
@@ -38,10 +40,10 @@ class cifar100tree:
 		self.cache_input = Input(shape=[512])
 		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
 
-		if save_acc:	
-			self.acc_file = open(save_acc,'w+')
-		else:
-			self.acc_file = None
+		# if save_acc:	
+		# 	self.acc_file = open(save_acc,'w+')
+		# else:
+		# 	self.acc_file = None
 
 		if load_weights:
 			for model in self.model_dict:
@@ -136,14 +138,14 @@ class cifar100tree:
 
 		conv11 = conv11_d(conv11_b(conv11_a(conv11_c(conv10))))
 
-		conv12_c = Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay),trainable=False)
+		conv12_c = Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay))
 		conv12_a = Activation('relu')
 		conv12_b = BatchNormalization()
 		conv12_d = Dropout(0.4)
 
 		conv12 = conv12_d(conv12_b(conv12_a(conv12_c(conv11))))
 
-		conv13_c = Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay),trainable=False)
+		conv13_c = Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay))
 		conv13_a = Activation('relu')
 		conv13_b = BatchNormalization()
 		conv13_p = MaxPooling2D(pool_size=(2, 2))
@@ -152,7 +154,7 @@ class cifar100tree:
 
 		conv13 = conv13_f(conv13_d(conv13_p(conv13_b(conv13_a(conv13_c(conv12))))))
 		
-		dense1_d = Dense(512,kernel_regularizer=regularizers.l2(weight_decay),trainable=False)
+		dense1_d = Dense(512,kernel_regularizer=regularizers.l2(weight_decay))
 		dense1_a = Activation('relu')
 		dense1_b = BatchNormalization()
 		dense1_do = Dropout(0.5)
@@ -401,7 +403,7 @@ if __name__ == '__main__':
 	xc_train = xc_train/255
 	xc_test = xc_test/255
 
-	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=False,save_acc="metrics/accuracy.csv",train=True)
+	model = cifar100tree(weights="../weights/cifar100vgg.h5",load_weights=False,train=True)
 
 	test_acc = model.predict(x_test,y_test)
 	val_acc = model.predict(x_train[::10],y_train[::10])
