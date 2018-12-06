@@ -401,7 +401,7 @@ if __name__ == '__main__':
 	xc_train = xc_train/255
 	xc_test = xc_test/255
 
-	model = cifar100tree(weights='weights/cifar100vgg.h5',load_weights=False,save_acc=None,train=True)
+	model = cifar100tree(weights='weights/cifar100vgg.h5',load_weights=True,save_acc=None,train=False)
 
 	test_acc = model.predict(x_test,y_test)
 	val_acc = model.predict(x_train[::10],y_train[::10])
