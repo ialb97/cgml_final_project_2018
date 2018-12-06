@@ -79,4 +79,6 @@ def createTree(file='meta'):
 
 if __name__ == "__main__" :
 	createTree()
+	import pdb
+	pdb.set_trace()
 
