@@ -45,7 +45,7 @@ class cifar100tree:
 
 		if load_weights:
 			for model in self.model_dict:
-				self.model_dict[model].load_weights('weights/cifar100tree_{}.h5'.format(model))
+				self.model_dict[model].load_weights('weights/cifar100badtree_{}.h5'.format(model))
 
 
 		print("Initialized\tsuper-category accuracy: {}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches)))
