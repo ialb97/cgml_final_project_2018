@@ -39,7 +39,7 @@ class cifar100tree:
 		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
 
 		if save_acc:	
-			self.acc_file = open(save_acc,'w+')
+			self.acc_file = save_acc
 		else:
 			self.acc_file = None
 
@@ -309,9 +309,9 @@ class cifar100tree:
 			print("Batch:{0}/{0}".format(num_batches))
 			print("Epoch: {0}/{1}\tsuper-category accuracy: {2}\t accuracy: {3}".format(epoch+1,epochs,self.eval_on_root(self.val_x_batches,self.val_y_batches),
 																self.eval(self.val_x_batches,self.val_y_batches)))
-
-			# self.acc_file.write("{},{}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches),
-			# 												self.eval(self.val_x_batches,self.val_y_batches)))
+			if self.acc_file:
+				self.acc_file.write("{},{}\n".format(self.eval_on_root(self.val_x_batches,self.val_y_batches),
+													self.eval(self.val_x_batches,self.val_y_batches)))
 
 	def get_root_mapping(self):
 		self.root_mapping = [0]*len(self.tree)
@@ -401,7 +401,7 @@ if __name__ == '__main__':
 	xc_train = xc_train/255
 	xc_test = xc_test/255
 
-	model = cifar100tree(weights='weights/cifar100vgg.h5',load_weights=False,save_acc=None,train=True)
+	model = cifar100tree(weights='weights/cifar100vgg.h5',load_weights=False,save_acc='accuracy/cifar100tree.csv',train=True)
 
 	test_acc = model.predict(x_test,y_test)
 	val_acc = model.predict(x_train[::10],y_train[::10])
