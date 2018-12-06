@@ -310,8 +310,8 @@ class cifar100tree:
 			print("Epoch: {0}/{1}\tsuper-category accuracy: {2}\t accuracy: {3}".format(epoch+1,epochs,self.eval_on_root(self.val_x_batches,self.val_y_batches),
 																self.eval(self.val_x_batches,self.val_y_batches)))
 
-			self.acc_file.write("{},{}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches),
-															self.eval(self.val_x_batches,self.val_y_batches)))
+			# self.acc_file.write("{},{}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches),
+			# 												self.eval(self.val_x_batches,self.val_y_batches)))
 
 	def get_root_mapping(self):
 		self.root_mapping = [0]*len(self.tree)
