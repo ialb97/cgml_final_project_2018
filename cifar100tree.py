@@ -39,7 +39,7 @@ class cifar100tree:
 		self.model_dict,self.eval_model_dict = self.build_model_dict(self.base_model,self.inputs)
 
 		if save_acc:	
-			self.acc_file = save_acc
+			self.acc_file = open(save_acc,'w+')
 		else:
 			self.acc_file = None
 
