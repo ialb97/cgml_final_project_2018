@@ -18,7 +18,7 @@ import pdb
 
 
 class cifar100tree:
-	def __init__(self,weights=None,load_weights=False,learning_rate=.000001,save_acc=None,train=True):
+	def __init__(self,weights=None,load_weights=False,learning_rate=.001,save_acc=None,train=True):
 		self.batch_size = 32
 		self.num_classes = 100
 		self.weight_decay = 0.0005	
@@ -401,7 +401,7 @@ if __name__ == '__main__':
 	xc_train = xc_train/255
 	xc_test = xc_test/255
 
-	model = cifar100tree(weights="weights/cifar100vgg.h5",load_weights=False,save_acc="metrics/accuracy.csv",train=True)
+	model = cifar100tree(weights=None,load_weights=False,save_acc="metrics/accuracy.csv",train=True)
 
 	test_acc = model.predict(x_test,y_test)
 	val_acc = model.predict(x_train[::10],y_train[::10])
