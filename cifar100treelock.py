@@ -138,14 +138,14 @@ class cifar100tree:
 
 		conv11 = conv11_d(conv11_b(conv11_a(conv11_c(conv10))))
 
-		conv12_c = Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay),trainable=False)
+		conv12_c = Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay))
 		conv12_a = Activation('relu')
 		conv12_b = BatchNormalization()
 		conv12_d = Dropout(0.4)
 
 		conv12 = conv12_d(conv12_b(conv12_a(conv12_c(conv11))))
 
-		conv13_c = Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay),trainable=False)
+		conv13_c = Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay))
 		conv13_a = Activation('relu')
 		conv13_b = BatchNormalization()
 		conv13_p = MaxPooling2D(pool_size=(2, 2))
@@ -154,7 +154,7 @@ class cifar100tree:
 
 		conv13 = conv13_f(conv13_d(conv13_p(conv13_b(conv13_a(conv13_c(conv12))))))
 		
-		dense1_d = Dense(512,kernel_regularizer=regularizers.l2(weight_decay),trainable=False)
+		dense1_d = Dense(512,kernel_regularizer=regularizers.l2(weight_decay))
 		dense1_a = Activation('relu')
 		dense1_b = BatchNormalization()
 		dense1_do = Dropout(0.5)
