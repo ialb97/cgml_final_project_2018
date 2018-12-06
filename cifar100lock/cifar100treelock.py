@@ -407,9 +407,9 @@ if __name__ == '__main__':
 	pdb.set_trace()
 
 	test_acc = model.predict(x_test,y_test)
-	val_acc = model.predict(x_train[::10],y_train[::10])
+	val_acc = model.predict(x_train[::5],y_train[::5])
 	test_coarse_acc = model.predict_root(xc_test,yc_test)
-	val_coarse_acc = model.predict_root(xc_train[::10],yc_train[::10])
+	val_coarse_acc = model.predict_root(xc_train[::5],yc_train[::5])
 
 	print("Val super-category acc: {}\tTest super-category acc: {}".format(val_coarse_acc,	test_coarse_acc))
 	print("Val acc: {}\tTest acc: {}".format(val_acc,test_acc))
