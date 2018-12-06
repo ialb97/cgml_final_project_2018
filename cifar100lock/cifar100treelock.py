@@ -53,7 +53,7 @@ class cifar100tree:
 		print("Initialized\tsuper-category accuracy: {}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches)))
 		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
 		if train:
-			self.fit(250)
+			self.fit(100)
 		
 	def build_base_model(self):
 		inp = Input(shape=self.x_shape)
@@ -138,14 +138,14 @@ class cifar100tree:
 
 		conv11 = conv11_d(conv11_b(conv11_a(conv11_c(conv10))))
 
-		conv12_c = Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay))
+		conv12_c = Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay),trainable=False)
 		conv12_a = Activation('relu')
 		conv12_b = BatchNormalization()
 		conv12_d = Dropout(0.4)
 
 		conv12 = conv12_d(conv12_b(conv12_a(conv12_c(conv11))))
 
-		conv13_c = Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay))
+		conv13_c = Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay),trainable=False)
 		conv13_a = Activation('relu')
 		conv13_b = BatchNormalization()
 		conv13_p = MaxPooling2D(pool_size=(2, 2))
@@ -403,7 +403,7 @@ if __name__ == '__main__':
 	xc_train = xc_train/255
 	xc_test = xc_test/255
 
-	model = cifar100tree(weights="../weights/cifar100vgg.h5",load_weights=False,train=True)
+	model = cifar100tree(load_weights=True,train=False)
 
 	test_acc = model.predict(x_test,y_test)
 	val_acc = model.predict(x_train[::10],y_train[::10])
