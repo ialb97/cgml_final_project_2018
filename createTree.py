@@ -72,8 +72,8 @@ def createTree(file='meta'):
 	return output,batches_x,batches_y,val_batches_x,val_batches_y
 	#import pdb
 	#pdb.set_trace()
-	#with open('cifar100_v2.json','w') as writefile:
-	#	writefile.write(json.dumps(output))
+	with open('cifar100.json','w') as writefile:
+		writefile.write(json.dumps(output))
 
 
 

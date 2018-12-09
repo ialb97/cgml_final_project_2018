@@ -1,0 +1,213 @@
+{
+	"animals": {
+		"coarse": {
+			"large_omnivores_and_herbivores": {
+				"fine": {
+					"cattle": "19",
+			 		"elephant": "31",
+			 		"chimpanzee": "21",
+			 		"camel": "15",
+			 		"kangaroo": "38"
+			 	},
+				"val": "11"
+			},
+			 "people": {
+			 	"fine": {
+			 		"boy": "11",
+ 					"woman": "98",
+ 					"girl": "35",
+ 					"man": "46",
+ 					"baby": "2"
+ 				},
+ 				"val": "14"
+ 			},
+ 			"reptiles": {
+ 				"fine": {
+ 					"dinosaur": "29",
+ 					"snake": "78",
+ 					"crocodile": "27",
+ 					"turtle": "93",
+ 					"lizard": "44"
+ 				},
+ 				"val": "15"
+ 			},
+ 			 "fish": {
+ 			 	"fine": {
+ 			 		"aquarium_fish": "1",
+ 					"shark": "73",
+ 					"flatfish": "32",
+ 					"ray": "67",
+ 					"trout": "91"
+ 				},
+ 				"val": "1"
+ 			}, 			
+ 			"large_carnivores": {
+ 				"fine": {
+ 					"wolf": "97",
+ 					"leopard": "42",
+ 					"lion": "43",
+ 					"tiger": "88",
+ 					"bear": "3"
+ 				},
+ 				"val": "8"
+ 			},
+ 			"small_mammals": {
+ 				"fine": {
+ 					"squirrel": "80",
+ 					"shrew": "74",
+ 					"rabbit": "65",
+ 					"hamster": "36",
+ 					"mouse": "50"
+ 				},
+ 				"val": "16"
+ 			},
+ 			"medium_mammals": {
+ 				"fine": {
+ 					"possum": "64",
+ 					"skunk": "75",
+ 					"raccoon": "66",
+ 					"fox": "34",
+ 					"porcupine": "63"
+ 				},
+ 				"val": "12"
+ 			},
+ 			 "insects": {
+ 			 	"fine": {
+ 			 		"cockroach": "24",
+ 					"butterfly": "14",
+ 					"bee": "6",
+ 					"caterpillar": "18",
+ 					"beetle": "7"
+ 				},
+ 				"val": "7"
+ 			},
+ 			"non-insect_invertebrates": {
+ 				"fine": {
+ 					"lobster": "45",
+ 					"snail": "77",
+ 					"worm": "99",
+ 					"crab": "26",
+ 					"spider": "79"
+ 				},
+ 				"val": "13"
+ 			},
+ 			"aquatic_mammals": {
+ 				"fine": {
+ 					"otter": "55",
+ 					"seal": "72",
+ 					"whale": "95",
+ 					"beaver": "4",
+ 					"dolphin": "30"
+ 				},
+ 				"val": "0"
+ 			}
+ 		},
+ 		"val": "0"
+ 	},
+ 	"vehicles": {
+ 		"vehicles_1": {
+ 			"fine": {
+ 				"train": "90",
+ 				"bicycle": "8",
+ 				"motorcycle": "48",
+ 				"bus": "13",
+ 				"pickup_truck": "58"
+ 			},
+ 			"val": "18"
+ 		},
+ 		 "vehicles_2": {
+ 		 	"fine": {
+ 		 		"streetcar": "81",
+ 				"tractor": "89",
+ 				"rocket": "69",
+ 				"tank": "85",
+ 				"lawn_mower": "41"
+ 			},
+ 			"val": "19"
+ 		},
+ 	},
+ 	"plants": {
+ 		 "trees": {
+ 		 	"fine": {
+ 		 		"willow_tree": "96",
+ 				"pine_tree": "59",
+ 				"oak_tree": "52",
+ 				"maple_tree": "47",
+ 				"palm_tree": "56"
+ 			},
+ 			"val": "17"
+ 		},
+ 		"flowers": {
+ 			"fine": {
+ 				"sunflower": "82",
+ 				"rose": "70",
+ 				"tulip": "92",
+ 				"poppy": "62",
+ 				"orchid": "54"
+ 			},
+ 			"val": "2"
+ 		},
+ 		 "fruit_and_vegetables": {
+ 		 	"fine": {
+ 		 		"apple": "0",
+				"mushroom": "51",
+ 				"sweet_pepper": "83",
+ 				"orange": "53",
+ 				"pear": "57"
+ 			},
+ 			"val": "4"
+ 		},
+ 	},
+ 	"man-made_objects": {
+ 		"household_electrical_devices": {
+ 			"fine": {
+ 				"telephone": "86",
+ 				"keyboard": "39",
+ 				"television": "87",
+ 				"clock": "22",
+ 				"lamp": "40"
+ 			},
+ 			"val": "5"
+ 		},
+		"food_containers": {
+			"fine": {
+				"cup": "28",
+ 				"bottle": "9",
+ 				"plate": "61",
+ 				"bowl": "10",
+ 				"can": "16"
+ 			},
+ 			"val": "3"
+ 		},
+ 		"large_natural_outdoor_scenes": {
+ 			"fine": {
+ 				"cloud": "23",
+ 				"sea": "71",
+ 				"mountain": "49",
+ 				"forest": "33",
+ 				"plain": "60"
+ 			},
+ 			"val": "10"
+ 		},
+		"large_man-made_outdoor_things": {
+			"fine": {
+				"castle": "17",
+ 				"skyscraper": "76",
+ 				"road": "68",
+ 				"bridge": "12",
+ 				"house": "37"
+ 			},
+ 			"val": "9"
+ 		},
+ 		"household_furniture": {
+ 			"fine": {
+ 				"table": "84",
+ 				"chair": "20",
+ 				"wardrobe": "94",
+ 				"couch": "25",
+ 				"bed": "5"
+ 			},
+ 			"val": "6"},
+ 		}
+ 	}
+}
