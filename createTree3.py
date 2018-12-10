@@ -99,7 +99,7 @@ def createTree(file='meta'):
 		val_batches_x[key] = numpy.array(val_batches_x[key])
 		val_batches_y[key] = numpy.array(val_batches_y[key])
 	
-	return json_data,batches_x,batches_y,val_batches_x,val_batches_y, back_search, [labels[b'fine_label_names'][i].decode('utf-8') for i in range(labels[b'fine_label_names'])]
+	return json_data,batches_x,batches_y,val_batches_x,val_batches_y, back_search, [labels[b'fine_label_names'][i].decode('utf-8') for i in range(len(labels[b'fine_label_names']))]
 	#import pdb
 	#pdb.set_trace()
 	#with open('cifar100_v2.json','w') as writefile:
