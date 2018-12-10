@@ -233,7 +233,7 @@ class cifar100tree:
 				if depth == 0:
 					outputs = len(self.tree[key]['coarse'])
 				elif depth == 1:
-					outputs = len(self.tree[self.back_trace[key][0]]['coarse'][key])
+					outputs = len(self.tree[self.back_trace[key][0]]['coarse'][keyo])
 
 				if depth < 2:
 					models[key],eval_models[key] = self.build_model(self.base_model,inputs,outputs)
@@ -242,7 +242,7 @@ class cifar100tree:
 										loss='categorical_crossentropy')
 					eval_models[key].compile(self.optimizer,
 										loss='categorical_crossentropy')
-		pdb.set_trace()
+
 		return models,eval_models
 
 	def one_hot(self,labels):
@@ -265,7 +265,7 @@ class cifar100tree:
 						i+=1
 					new_batches[key] += [mapping[key][val]]
 				new_batches[key] = to_categorical(new_batches[key],i)
-		# pdb.set_trace()
+		pdb.set_trace()
 		return new_batches, mapping, reverse_mapping
 
 	def fit(self,epochs):
