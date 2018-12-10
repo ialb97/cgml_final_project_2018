@@ -340,7 +340,7 @@ class cifar100tree:
 				fine_correct = np.where(np.array([self.reverse_mapping[key][index] for index in fine_result])==y_batches[key])
 				correct += np.intersect1d(np.intersect1d(coarse_correct,fine_correct),coarser_correct).size
 				total += y_batches[key].shape[0]
-				# pdb.set_trace()	
+		pdb.set_trace()	
 		return correct/total
 
 	def predict(self,images,labels):
@@ -360,6 +360,7 @@ class cifar100tree:
 			# result = self.reverse_mapping[self.root_mapping[coarse_result]][fine_result]
 			if result == labels[i][0]:
 				correct += 1
+		pdb.set_trace()
 		return correct/images.shape[0]
 
 	def predict_root(self,images,labels):
@@ -420,7 +421,7 @@ if __name__ == '__main__':
 	model = cifar100tree(weights='weights/cifar100vgg.h5',load_weights=False,save_acc='metrics/cifar100tree.csv',train=False)
 
 	test_acc = model.predict(x_test,y_test)
-	val_acc = model.predict(x_train[::10],y_train[::10])
+	val_acc = model.predict(x_train[::5],y_train[::5])
 
 	print("Val acc: {}\tTest acc: {}".format(val_acc,test_acc))
 
