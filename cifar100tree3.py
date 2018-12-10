@@ -346,8 +346,9 @@ class cifar100tree:
 	def predict(self,images,labels):
 		correct = 0
 		for i in range(images.shape[0]):
-			key = self.back_trace[self.labels[labels[i]]][-1]
 			pdb.set_trace()
+			key = self.back_trace[self.labels[labels[i]]][-1]
+
 			cached_output = self.cache_model.predict_on_batch(np.expand_dims(images[i],axis=0))
 
 			coarser_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
