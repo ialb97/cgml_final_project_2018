@@ -346,7 +346,7 @@ class cifar100tree:
 	def predict(self,images,labels):
 		correct = 0
 		for i in range(images.shape[0]):
-			pdb.set_trace()
+			# pdb.set_trace()
 			key = self.back_trace[self.labels[labels[i][0]]][-1]
 
 			cached_output = self.cache_model.predict_on_batch(np.expand_dims(images[i],axis=0))
