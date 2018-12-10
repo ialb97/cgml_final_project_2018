@@ -327,7 +327,7 @@ class cifar100tree:
 	def eval(self,x_batches,y_batches):
 		correct = 0
 		for key in x_batches:
-			if key != 'root' && len(self.back_trace[key]) == 1: 
+			if key != 'root' and len(self.back_trace[key]) == 1: 
 				cached_output = self.cache_model.predict_on_batch(x_batches[key])
 				
 				coarser_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output),axis=1)
