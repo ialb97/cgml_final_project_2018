@@ -49,9 +49,9 @@ class cifar100tree:
 
 
 		# print("Initialized\tsuper-category accuracy: {}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches)))
-		# print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
+		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
 		if train:
-			self.fit(500)
+			self.fit(5)
 		
 	def build_base_model(self):
 		inp = Input(shape=self.x_shape)
@@ -265,7 +265,7 @@ class cifar100tree:
 						i+=1
 					new_batches[key] += [mapping[key][val]]
 				new_batches[key] = to_categorical(new_batches[key],i)
-		pdb.set_trace()
+		# pdb.set_trace()
 		return new_batches, mapping, reverse_mapping
 
 	def fit(self,epochs):
@@ -309,16 +309,15 @@ class cifar100tree:
 				else:
 					i -= 1
 
-			pdb.set_trace()
+			# pdb.set_trace()
 			for model in self.model_dict:
 				self.model_dict[model].save_weights('weights/cifar100goodtree_{}.h5'.format(model))
 			# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
 			print("Batch:{0}/{0}".format(num_batches))
-			print("Epoch: {0}/{1}\tsuper-category accuracy: {2}\t accuracy: {3}".format(epoch+1,epochs,self.eval_on_root(self.val_x_batches,self.val_y_batches),
-																self.eval(self.val_x_batches,self.val_y_batches)))
+			print("Epoch: {0}/{1}\t accuracy: {2}".format(epoch+1,epochs,
+															self.eval(self.val_x_batches,self.val_y_batches)))
 			if self.acc_file:
-				self.acc_file.write("{},{}\n".format(self.eval_on_root(self.val_x_batches,self.val_y_batches),
-													self.eval(self.val_x_batches,self.val_y_batches)))
+				self.acc_file.write("{},{}\n".format(self.eval(self.val_x_batches,self.val_y_batches)))
 
 	def get_root_mapping(self):
 		self.root_mapping = [0]*len(self.tree)
@@ -328,15 +327,17 @@ class cifar100tree:
 	def eval(self,x_batches,y_batches):
 		correct = 0
 		for key in x_batches:
-			if key != 'root': 
+			if key != 'root' && len(self.back_trace[key]) == 1: 
 				cached_output = self.cache_model.predict_on_batch(x_batches[key])
 				
-				coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output),axis=1)
+				coarser_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output),axis=1)
+				coarse_result = np.argmax(self.eval_model_dict[self.back_trace[key][0]])
 				fine_result = np.argmax(self.eval_model_dict[key].predict_on_batch(cached_output),axis=1)
 				
-				coarse_correct = np.where(coarse_result==int(self.tree[key]['val']))
+				coarser_correct = np.where(coarser_result==int(self.tree[self.back_trace[key][0]]['val']))
+				coarse_correct = np.where(np.array([self.reverse_mapping[self.bac_trace[key][0]][index] for index in coarse_result])==y_batches[key])
 				fine_correct = np.where(np.array([self.reverse_mapping[key][index] for index in fine_result])==y_batches[key])
-				correct += np.intersect1d(coarse_correct,fine_correct).size
+				correct += np.intersect1d(np.intersect1d(coarse_correct,fine_correct),coarser_correct).size
 				
 		return correct/y_batches['root'].shape[0]
 
