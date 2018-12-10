@@ -265,7 +265,7 @@ class cifar100tree:
 						i+=1
 					new_batches[key] += [mapping[key][val]]
 				new_batches[key] = to_categorical(new_batches[key],i)
-		pdb.set_trace()
+		# pdb.set_trace()
 		return new_batches, mapping, reverse_mapping
 
 	def fit(self,epochs):
@@ -309,7 +309,7 @@ class cifar100tree:
 				else:
 					i -= 1
 
-			# pdb.set_trace()
+			pdb.set_trace()
 			for model in self.model_dict:
 				self.model_dict[model].save_weights('weights/cifar100goodtree_{}.h5'.format(model))
 			# batches = datagen.flow(self.val_x_batches,self.val_y_batches,batch_size=1)
