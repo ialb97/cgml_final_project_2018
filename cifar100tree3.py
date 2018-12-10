@@ -331,7 +331,7 @@ class cifar100tree:
 				cached_output = self.cache_model.predict_on_batch(x_batches[key])
 				
 				coarser_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output),axis=1)
-				coarse_result = np.argmax(self.eval_model_dict[self.back_trace[key][0]])
+				coarse_result = np.argmax(self.eval_model_dict[self.back_trace[key][0]].predict_on_batch(cached_output),axis=1)
 				fine_result = np.argmax(self.eval_model_dict[key].predict_on_batch(cached_output),axis=1)
 				
 				coarser_correct = np.where(coarser_result==int(self.tree[self.back_trace[key][0]]['val']))
