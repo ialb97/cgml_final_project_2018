@@ -22,10 +22,6 @@ def createTree(file='meta'):
 			for fine in json_data[key]['coarse'][coarse]['fine']:
 				back_search[fine] = [key,coarse] 
 
-
-
-	
-	pdb.set_trace()
 	output = {}
 	batches_x = {'root':[]}
 	batches_y = {'root':[]}
@@ -94,16 +90,14 @@ def createTree(file='meta'):
 		val_batches_x[coarser_label] += [x1[i]]
 		val_batches_y[coarser_label] += [y_val_coarse[i]]
 
-	batches_x['root'] = numpy.array(batches_x['root'])
-	val_batches_x['root'] = numpy.array(val_batches_x['root'])
-	val_batches_y['root'] = numpy.array(val_batches_y['root'])
+	# batches_x['root'] = numpy.array(batches_x['root'])
+	# val_batches_x['root'] = numpy.array(val_batches_x['root'])
+	# val_batches_y['root'] = numpy.array(val_batches_y['root'])
 
-	for key in output.keys():
+	for key in batches_x.keys():
 		batches_x[key] = numpy.array(batches_x[key])
 		val_batches_x[key] = numpy.array(val_batches_x[key])
 		val_batches_y[key] = numpy.array(val_batches_y[key])
-
-	pdb.set_trace()
 	
 	return json_data,batches_x,batches_y,val_batches_x,val_batches_y, back_search
 	#import pdb
