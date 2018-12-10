@@ -32,7 +32,7 @@ class cifar100tree:
 		if (weights and not load_weights):
 			self.vgg_model.load_weights(weights)
 
-		self.tree,self.x_batches,self.y_batches,self.val_x_batches,self.val_y_batches, self.back_trace = createTree.createTree()
+		self.tree,self.x_batches,self.y_batches,self.val_x_batches,self.val_y_batches, self.back_trace, self.labels = createTree.createTree()
 		self.get_root_mapping()
 		self.y_batches,self.mapping,self.reverse_mapping = self.one_hot(self.y_batches)
 		self.cache_input = Input(shape=[512])
@@ -346,10 +346,17 @@ class cifar100tree:
 	def predict(self,images,labels):
 		correct = 0
 		for i in range(images.shape[0]):
+			key = self.back_trace[self.labels[labels[i]]][-1]
+			pdb.set_trace()
 			cached_output = self.cache_model.predict_on_batch(np.expand_dims(images[i],axis=0))
 
-			coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
-			fine_result = np.argmax(self.eval_model_dict[self.root_mapping[coarse_result]].predict_on_batch(cached_output))
+			coarser_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
+			coarse_result = np.argmax(self.eval_model_dict[self.back_trace[key][0]].predict_on_batch(cached_output))
+			fine_result = np.argmax(self.eval_model_dict[key].predict_on_batch(cached_output))
+
+			result = (coarser_result==int(self.tree[self.back_trace[key][0]]['val'])) and 
+						(coarse_result==self.mapping[self.back_trace[key][0]][int(self.tree[self.back_trace[key][0]]['coarse'][key]['val'])]) and
+						(self.reverse_mapping[key][fine_result])
 
 			result = self.reverse_mapping[self.root_mapping[coarse_result]][fine_result]
 			if result == labels[i][0]:
@@ -361,7 +368,7 @@ class cifar100tree:
 		for i in range(images.shape[0]):
 			cached_output = self.cache_model.predict_on_batch(np.expand_dims(images[i],axis=0))
 
-			coarse_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
+			coarser_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
 
 			if coarse_result == labels[i][0]:
 				correct += 1
@@ -411,7 +418,7 @@ if __name__ == '__main__':
 	xc_train = xc_train/255
 	xc_test = xc_test/255
 
-	model = cifar100tree(weights='weights/cifar100vgg.h5',load_weights=False,save_acc='metrics/cifar100tree.csv',train=True)
+	model = cifar100tree(weights='weights/cifar100vgg.h5',load_weights=False,save_acc='metrics/cifar100tree.csv',train=False)
 
 	test_acc = model.predict(x_test,y_test)
 	val_acc = model.predict(x_train[::10],y_train[::10])
