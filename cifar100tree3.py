@@ -48,8 +48,8 @@ class cifar100tree:
 				self.model_dict[model].load_weights('weights/cifar100tree_{}.h5'.format(model))
 
 
-		print("Initialized\tsuper-category accuracy: {}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches)))
-		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
+		# print("Initialized\tsuper-category accuracy: {}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches)))
+		# print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
 		if train:
 			self.fit(500)
 		
