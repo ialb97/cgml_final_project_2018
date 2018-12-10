@@ -233,7 +233,7 @@ class cifar100tree:
 				if depth == 0:
 					outputs = len(self.tree[key]['coarse'])
 				elif depth == 1:
-					outputs = len(self.tree[self.back_trace[key][0]]['coarse'][keyo])
+					outputs = len(self.tree[self.back_trace[key][0]]['coarse'][key])
 
 				if depth < 2:
 					models[key],eval_models[key] = self.build_model(self.base_model,inputs,outputs)
