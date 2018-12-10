@@ -47,7 +47,7 @@ class cifar100tree:
 			for model in self.model_dict:
 				self.model_dict[model].load_weights('weights/cifar100tree_{}.h5'.format(model))
 
-
+		pdb.set_trace()
 		# print("Initialized\tsuper-category accuracy: {}".format(self.eval_on_root(self.val_x_batches,self.val_y_batches)))
 		print("Initialized\taccuracy: {}".format(self.eval(self.val_x_batches,self.val_y_batches)))
 		if train:
@@ -340,7 +340,7 @@ class cifar100tree:
 				fine_correct = np.where(np.array([self.reverse_mapping[key][index] for index in fine_result])==y_batches[key])
 				correct += np.intersect1d(np.intersect1d(coarse_correct,fine_correct),coarser_correct).size
 				total += y_batches[key].shape[0]
-				pdb.set_trace()
+				pdb.set_trace()	
 		return correct/total
 
 	def predict(self,images,labels):
