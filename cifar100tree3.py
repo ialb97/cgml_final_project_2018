@@ -339,10 +339,9 @@ class cifar100tree:
 				coarse_correct = np.where(coarse_result==self.mapping[self.back_trace[key][0]][int(self.tree[self.back_trace[key][0]]['coarse'][key]['val'])])[0]
 				fine_correct = np.where(np.array([self.reverse_mapping[key][index] for index in fine_result])==y_batches[key])[0]
 				correct += np.intersect1d(np.intersect1d(coarse_correct,fine_correct),coarser_correct).size
-				correct2 = [x for x in range(y_batches[key].shape[0]) if x in fine_correct and x in coarse_correct and x in coarser_correct]
+
 				total += y_batches[key].shape[0]
-				pdb.set_trace()
-		pdb.set_trace()	
+
 		return correct/total
 
 	def predict(self,images,labels):
@@ -350,7 +349,7 @@ class cifar100tree:
 		for i in range(images.shape[0]):
 			# pdb.set_trace()
 			key = self.back_trace[self.labels[labels[i][0]]][-1]
-
+			pdb.set_trace()
 			cached_output = self.cache_model.predict_on_batch(np.expand_dims(images[i],axis=0))
 
 			coarser_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
@@ -358,7 +357,7 @@ class cifar100tree:
 			fine_result = np.argmax(self.eval_model_dict[key].predict_on_batch(cached_output))
 
 			result = (coarser_result==int(self.tree[self.back_trace[key][0]]['val'])) and (coarse_result==self.mapping[self.back_trace[key][0]][int(self.tree[self.back_trace[key][0]]['coarse'][key]['val'])]) and (self.reverse_mapping[key][fine_result])
-
+			pdb.set_trace()
 			# result = self.reverse_mapping[self.root_mapping[coarse_result]][fine_result]
 			if result == labels[i][0]:
 				correct += 1
