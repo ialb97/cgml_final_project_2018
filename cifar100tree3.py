@@ -349,7 +349,7 @@ class cifar100tree:
 		for i in range(images.shape[0]):
 			# pdb.set_trace()
 			key = self.back_trace[self.labels[labels[i][0]]][-1]
-			pdb.set_trace()
+			# pdb.set_trace()
 			cached_output = self.cache_model.predict_on_batch(np.expand_dims(images[i],axis=0))
 
 			coarser_result = np.argmax(self.eval_model_dict['root'].predict_on_batch(cached_output))
@@ -357,11 +357,11 @@ class cifar100tree:
 			fine_result = np.argmax(self.eval_model_dict[key].predict_on_batch(cached_output))
 
 			result = (coarser_result==int(self.tree[self.back_trace[key][0]]['val'])) and (coarse_result==self.mapping[self.back_trace[key][0]][int(self.tree[self.back_trace[key][0]]['coarse'][key]['val'])]) and (fine_result==self.reverse_mapping[key][fine_result])
-			pdb.set_trace()
+			# pdb.set_trace()
 			# result = self.reverse_mapping[self.root_mapping[coarse_result]][fine_result]
 			if result:
 				correct += 1
-		pdb.set_trace()
+		# pdb.set_trace()
 		return correct/images.shape[0]
 
 	def predict_root(self,images,labels):
