@@ -356,10 +356,10 @@ class cifar100tree:
 			coarse_result = np.argmax(self.eval_model_dict[self.back_trace[key][0]].predict_on_batch(cached_output))
 			fine_result = np.argmax(self.eval_model_dict[key].predict_on_batch(cached_output))
 
-			result = (coarser_result==int(self.tree[self.back_trace[key][0]]['val'])) and (coarse_result==self.mapping[self.back_trace[key][0]][int(self.tree[self.back_trace[key][0]]['coarse'][key]['val'])]) and (self.reverse_mapping[key][fine_result])
+			result = (coarser_result==int(self.tree[self.back_trace[key][0]]['val'])) and (coarse_result==self.mapping[self.back_trace[key][0]][int(self.tree[self.back_trace[key][0]]['coarse'][key]['val'])]) and (fine_result==self.reverse_mapping[key][fine_result])
 			pdb.set_trace()
 			# result = self.reverse_mapping[self.root_mapping[coarse_result]][fine_result]
-			if result == labels[i][0]:
+			if result:
 				correct += 1
 		pdb.set_trace()
 		return correct/images.shape[0]
