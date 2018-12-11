@@ -356,7 +356,7 @@ class cifar100tree:
 			coarse_result = np.argmax(self.eval_model_dict[self.back_trace[key][0]].predict_on_batch(cached_output))
 			fine_result = np.argmax(self.eval_model_dict[key].predict_on_batch(cached_output))
 
-			result = (coarser_result==int(self.tree[self.back_trace[key][0]]['val'])) and (coarse_result==self.mapping[self.back_trace[key][0]][int(self.tree[self.back_trace[key][0]]['coarse'][key]['val'])]) and (fine_result==self.reverse_mapping[key][fine_result])
+			result = (coarser_result==int(self.tree[self.back_trace[key][0]]['val'])) and (coarse_result==self.mapping[self.back_trace[key][0]][int(self.tree[self.back_trace[key][0]]['coarse'][key]['val'])]) and (labels[i][0]==self.reverse_mapping[key][fine_result])
 			# pdb.set_trace()
 			# result = self.reverse_mapping[self.root_mapping[coarse_result]][fine_result]
 			if result:
@@ -419,7 +419,7 @@ if __name__ == '__main__':
 	xc_train = xc_train/255
 	xc_test = xc_test/255
 
-	model = cifar100tree(weights='weights/cifar100vgg.h5',load_weights=False,save_acc='metrics/cifar100tree.csv',train=False)
+	model = cifar100tree(weights='weights/cifar100vgg.h5',load_weights=False,save_acc='metrics/cifar100tree.csv',train=True)
 
 	test_acc = model.predict(x_test,y_test)
 	val_acc = model.predict(x_train[::5],y_train[::5])
