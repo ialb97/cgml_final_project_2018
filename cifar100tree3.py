@@ -339,7 +339,9 @@ class cifar100tree:
 				coarse_correct = np.where(coarse_result==self.mapping[self.back_trace[key][0]][int(self.tree[self.back_trace[key][0]]['coarse'][key]['val'])])[0]
 				fine_correct = np.where(np.array([self.reverse_mapping[key][index] for index in fine_result])==y_batches[key])[0]
 				correct += np.intersect1d(np.intersect1d(coarse_correct,fine_correct),coarser_correct).size
+				correct2 = [x for x in range(y_batches[key].shape[0]) if x in fine_correct and x in coarse_correct and x in coarser_correct]
 				total += y_batches[key].shape[0]
+				pdb.set_trace()
 		pdb.set_trace()	
 		return correct/total
 
