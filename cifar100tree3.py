@@ -297,7 +297,7 @@ class cifar100tree:
 				batches_per += [len(batches[k])]
 				k += 1
 			for i in range(num_batches):
-				rng = random.randint(0,len(self.tree))
+				rng = random.randint(0,len(self.x_batches))
 				if batches_per[rng]:
 					batches_per[rng] -= 1
 					x_batch,y_batch = batches[rng][batches_per[rng]]
