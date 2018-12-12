@@ -21,7 +21,7 @@ class cifar100tree:
 	def __init__(self,weights=None,load_weights=False,learning_rate=.00001,save_acc=None,train=True):
 		self.batch_size = 32
 		self.num_classes = 100
-		self.weight_decay = 0.05	
+		self.weight_decay = 0.005	
 		self.x_shape = [32,32,3]
 
 		self.learning_rate = learning_rate
@@ -288,12 +288,12 @@ class cifar100tree:
 			batches_per = []
 			keys = []
 			k = 0
-			keys = ['root']
-			batches = [datagen.flow(self.x_batches['root'],self.y_batches['root'],batch_size=self.batch_size)]
-			num_batches = len(batches[k])
-			batches_per = [len(batches[k])]
-			k += 1
-			for key in self.tree:
+			# keys = ['root']
+			# batches = [datagen.flow(self.x_batches['root'],self.y_batches['root'],batch_size=self.batch_size)]
+			# num_batches = len(batches[k])
+			# batches_per = [len(batches[k])]
+			# k += 1
+			for key in self.x_batches:
 				keys += [key]
 				batches += [datagen.flow(self.x_batches[key],self.y_batches[key],batch_size=self.batch_size)]
 				num_batches += len(batches[k])
