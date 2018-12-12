@@ -284,14 +284,11 @@ class cifar100tree:
 		
 		# pdb.set_trace()
 		for epoch in range(epochs):
-			num_batches = 0
-			batches_per = []
-			keys = []
 			k = 0
-			# keys = ['root']
-			# batches = [datagen.flow(self.x_batches['root'],self.y_batches['root'],batch_size=self.batch_size)]
-			# num_batches = len(batches[k])
-			# batches_per = [len(batches[k])]
+			keys = list()
+			batches = list()
+			num_batches = 0
+			batches_per = list()
 			# k += 1
 			for key in self.x_batches:
 				keys += [key]
