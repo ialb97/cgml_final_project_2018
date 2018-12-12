@@ -233,7 +233,7 @@ class cifar100tree:
 				if depth == 0:
 					outputs = len(self.tree[key]['coarse'])
 				elif depth == 1:
-					outputs = len(self.tree[self.back_trace[key][0]]['coarse'][key])
+					outputs = len(self.tree[self.back_trace[key][0]]['coarse'][key]['fine'])
 
 				if depth < 2:
 					models[key],eval_models[key] = self.build_model(self.base_model,inputs,outputs)
@@ -301,7 +301,7 @@ class cifar100tree:
 				if batches_per[rng]:
 					batches_per[rng] -= 1
 					x_batch,y_batch = batches[rng][batches_per[rng]]
-					pdb.set_trace()
+					# pdb.set_trace()
 					self.model_dict[keys[rng]].train_on_batch(x_batch,y_batch)
 					print("Batch:{}/{}".format(i,num_batches),end='\r')
 				else:
