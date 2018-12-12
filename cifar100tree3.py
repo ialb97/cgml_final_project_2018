@@ -297,10 +297,11 @@ class cifar100tree:
 				batches_per += [len(batches[k])]
 				k += 1
 			for i in range(num_batches):
-				rng = random.randint(0,len(self.x_batches))
+				rng = random.randint(0,len(self.x_batches)-1)
 				if batches_per[rng]:
 					batches_per[rng] -= 1
 					x_batch,y_batch = batches[rng][batches_per[rng]]
+					pdb.set_trace()
 					self.model_dict[keys[rng]].train_on_batch(x_batch,y_batch)
 					print("Batch:{}/{}".format(i,num_batches),end='\r')
 				else:
